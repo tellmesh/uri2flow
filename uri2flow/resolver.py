@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import fnmatch
+import os
 import re
 from dataclasses import dataclass
 from functools import lru_cache
@@ -18,7 +19,23 @@ def _find_repo_root(start: Path | None = None) -> Path:
     current = (start or Path(__file__)).resolve()
     if current.is_file():
         current = current.parent
-    for path in (current, *current.parents):
+
+    candidates: list[Path] = []
+
+    def add(path: Path) -> None:
+        resolved = path.expanduser().resolve()
+        if resolved not in candidates:
+            candidates.append(resolved)
+
+    add(current)
+    add(Path.cwd())
+    if raw := os.getenv("HYPERVISOR_REPO_ROOT"):
+        add(Path(raw))
+    for base in (current, Path.cwd(), *current.parents):
+        add(base / "hypervisor")
+        add(base / "wronai" / "hypervisor")
+
+    for path in candidates:
         if (path / "contracts").is_dir() and (path / "schemas").is_dir():
             return path
         if (path / _CONFIG_NAME).exists():

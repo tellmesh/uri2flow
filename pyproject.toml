@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Compact URI flow to workflow graph compiler for uri3/nl2uri pipelines"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["PyYAML>=6.0", "uri2pact"]
+dependencies = ["PyYAML>=6.0", "uri2pact", "uri2ops", "uri3"]
 
 [project.optional-dependencies]
 test = ["pytest>=8.0"]
@@ -17,11 +17,20 @@ jsonschema = ["jsonschema>=4.0"]
 [project.scripts]
 uri2flow = "uri2flow.cli:main"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["uri2flow*"]
+
+[tool.setuptools.package-data]
+uri2flow = ["schemas/*.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.uv.sources]
-uri2pact = { git = "https://github.com/tellmesh/uri2pact.git" }
+uri2pact = { path = "../uri2pact", editable = true }
+uri2ops = { path = "../uri2ops", editable = true }
+uri3 = { path = "../uri3", editable = true }
 
 [tool.pfix]
 # Self-healing Python configuration
