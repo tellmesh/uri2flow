@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "uri2flow"
-version = "0.1.1"
+version = "0.1.2"
 description = "Compact URI flow to workflow graph compiler for uri3/nl2uri pipelines"
 readme = "README.md"
 requires-python = ">=3.10"
