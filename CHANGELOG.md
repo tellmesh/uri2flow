@@ -1,5 +1,22 @@
 # Changelog
 
+## [Unreleased]
+
+## [0.1.1] - 2026-06-15
+
+### Docs
+- Update README.md
+
+### Test
+- Update tests/conftest.py
+
+### Other
+- Update .gitignore
+- Update contracts/agents/codex_nl_smoke_agent.yaml
+- Update contracts/agents/codex_uri_smoke_agent.yaml
+- Update uv.lock
+
+
 ## v0.8.2
 
 - Added `markpact://` flow loader for compact URI flows in README.
