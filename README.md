@@ -66,6 +66,12 @@ See [`examples/15_compact_uri_flow`](examples/15_compact_uri_flow/README.md).
 
 `uri2flow` does not execute anything. It only parses, normalizes and expands compact URI flows.
 
+## Links
+
+- [TODO](TODO.md) · [CHANGELOG](CHANGELOG.md)
+- [nl2uri](../nl2uri) · [uri3](../uri3)
+- Org status: [`../TODO_STATUS.md`](../TODO_STATUS.md)
+
 
 ## License
 
