@@ -3256,7 +3256,7 @@ provides-extras = ["dev", "test", "jsonschema"]
 
 [[package]]
 name = "uri2ops"
-version = "0.5.11"
+version = "0.5.12"
 source = { editable = "../uri2ops" }
 dependencies = [
     { name = "fastapi" },
@@ -3281,13 +3281,14 @@ requires-dist = [
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "typer", specifier = ">=0.26.7" },
     { name = "uri3", editable = "../uri3" },
+    { name = "urish", marker = "extra == 'dev'", editable = "../urish" },
     { name = "uvicorn", marker = "extra == 'server'", specifier = ">=0.27" },
 ]
 provides-extras = ["dev", "browser", "windows", "server"]
 
 [[package]]
 name = "uri2pact"
-version = "0.1.2"
+version = "0.1.4"
 source = { editable = "../uri2pact" }
 dependencies = [
     { name = "pyyaml" },
@@ -3295,6 +3296,9 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "costs", marker = "extra == 'dev'", specifier = ">=0.1.20" },
+    { name = "goal", marker = "extra == 'dev'", specifier = ">=2.1.0" },
+    { name = "pfix", marker = "extra == 'dev'", specifier = ">=0.1.60" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0" },
     { name = "pyyaml", specifier = ">=6.0" },
 ]
@@ -3302,7 +3306,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "uri3"
-version = "0.5.8"
+version = "0.5.9"
 source = { editable = "../uri3" }
 dependencies = [
     { name = "httpx" },
