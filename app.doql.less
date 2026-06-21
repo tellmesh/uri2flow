@@ -1,0 +1,38 @@
+// LESS format — define @variables here as needed
+
+app {
+  name: uri2flow;
+  version: 0.1.2;
+}
+
+dependencies {
+  runtime: "PyYAML>=6.0, uri2pact, uri2ops, uri3";
+  dev: "pytest>=8.0, goal>=2.1.0, costs>=0.1.20, pfix>=0.1.60";
+  test: pytest>=8.0;
+  jsonschema: jsonschema>=4.0;
+}
+
+interface[type="cli"] {
+  framework: argparse;
+}
+interface[type="cli"] page[name="uri2flow"] {
+  entry: uri2flow.cli:main;
+}
+
+env_vars {
+  keys: OPENROUTER_API_KEY, LLM_MODEL, PFIX_AUTO_APPLY, PFIX_AUTO_INSTALL_DEPS, PFIX_AUTO_RESTART, PFIX_MAX_RETRIES, PFIX_DRY_RUN, PFIX_ENABLED, PFIX_GIT_COMMIT, PFIX_GIT_PREFIX, PFIX_CREATE_BACKUPS;
+}
+
+deploy {
+  target: pip;
+}
+
+environment[name="local"] {
+  runtime: python;
+  env_file: .env;
+  template_file: .env.example;
+  python_version: >=3.10;
+  vars: LLM_MODEL, OPENROUTER_API_KEY, PFIX_AUTO_APPLY, PFIX_AUTO_INSTALL_DEPS, PFIX_AUTO_RESTART, PFIX_CREATE_BACKUPS, PFIX_DRY_RUN, PFIX_ENABLED, PFIX_GIT_COMMIT, PFIX_GIT_PREFIX, PFIX_MAX_RETRIES;
+  runtime_llm: OPENROUTER_API_KEY;
+  runtime_pfix: PFIX_AUTO_APPLY, PFIX_AUTO_INSTALL_DEPS, PFIX_AUTO_RESTART, PFIX_CREATE_BACKUPS, PFIX_DRY_RUN, PFIX_ENABLED, PFIX_GIT_COMMIT, PFIX_GIT_PREFIX, PFIX_MAX_RETRIES;
+}

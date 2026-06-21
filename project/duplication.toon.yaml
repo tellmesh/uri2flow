@@ -1,0 +1,9 @@
+# redup/duplication | 0 groups | 10f 589L | 2026-06-21
+
+SUMMARY:
+  files_scanned: 10
+  total_lines:   589
+  dup_groups:    0
+  dup_fragments: 0
+  saved_lines:   0
+  scan_ms:       2995

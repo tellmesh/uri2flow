@@ -1,0 +1,27 @@
+flowchart TD
+%% generated in 0.01s
+
+    %% Entry points (blue)
+    classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
+
+    subgraph CLI
+        uri2flow__cli__cmd_validate["cmd_validate"]
+        uri2flow__cli__cmd_expand["cmd_expand"]
+        uri2flow__cli__cmd_print["cmd_print"]
+        uri2flow__cli__build_parser["build_parser"]
+        uri2flow__cli__main["main"]
+    end
+
+    subgraph Core
+        uri2flow__validator__validate_expanded_flow["validate_expanded_flow"]
+        uri2flow__expander___node_from_step("_node_from_step CC=11")
+        uri2flow__expander__expand_flow["expand_flow"]
+        uri2flow__models__FlowDocument__to_dict["to_dict"]
+        uri2flow__resolver___pattern_to_regex["_pattern_to_regex"]
+        uri2flow__resolver___match_pattern["_match_pattern"]
+        uri2flow__resolver___defaults_from_patterns["_defaults_from_patterns"]
+        uri2flow__resolver__default_operation_for_uri["default_operation_for_uri"]
+        uri2flow__resolver__clear_defaults_cache["clear_defaults_cache"]
+    end
+
+    class uri2flow__validator__validate_expanded_flow,uri2flow__cli__cmd_validate,uri2flow__cli__cmd_expand,uri2flow__cli__cmd_print,uri2flow__cli__build_parser,uri2flow__cli__main,uri2flow__models__FlowDocument__to_dict,uri2flow__resolver__clear_defaults_cache entry

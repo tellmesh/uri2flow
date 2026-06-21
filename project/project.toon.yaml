@@ -1,0 +1,37 @@
+# uri2flow | 31 func | 7f | 1805L | yaml | 2026-06-21
+# generated in 0.00s
+
+HEALTH:
+  CC̄=4.7  critical=6 (limit:10)  dup=0  cycles=0
+
+ALERTS[2]:
+  !   high_fan_out     _parse_step = 11 (limit:10)
+  !   high_fan_out     _find_repo_root = 10 (limit:10)
+
+MODULES[30] (top by size):
+  M[goal.yaml] 525L C:0 F:0 CC↑0 D:0 (yaml)
+  M[uri2flow/resolver.py] 127L C:1 F:10 CC↑9 D:1 (python)
+  M[uri2flow/parser.py] 99L C:1 F:4 CC↑12 D:3 (python)
+  M[uri2flow/expander.py] 81L C:0 F:4 CC↑11 D:2 (python)
+  M[uri2flow/cli.py] 75L C:0 F:5 CC↑3 D:0 (python)
+  M[pyproject.toml] 68L C:0 F:0 CC↑0 D:0 (toml)
+  M[uri2flow/validator.py] 64L C:0 F:3 CC↑11 D:1 (python)
+  M[project.sh] 59L C:0 F:0 CC↑0 D:0 (shell)
+  M[contracts/agents/hypervisor_dashboard_agent.yaml] 55L C:0 F:0 CC↑0 D:0 (yaml)
+  M[contracts/agents/remote_deploy_agent.yaml] 53L C:0 F:0 CC↑0 D:0 (yaml)
+  M[uri2flow/models.py] 47L C:2 F:1 CC↑11 D:0 (python)
+  M[contracts/agents/screenshot_analysis_agent.yaml] 42L C:0 F:0 CC↑0 D:0 (yaml)
+  M[examples/33_office_workflows/run.sh] 41L C:0 F:0 CC↑0 D:0 (shell)
+  M[uri2flow/schemas/uri_flow.schema.json] 40L C:0 F:0 CC↑0 D:0 (json)
+  M[uri2flow/utils.py] 38L C:0 F:4 CC↑5 D:2 (python)
+  LANGS: yaml:15/python:10/shell:3/toml:1/json:1
+
+HOTSPOTS[2]:
+  ★ _parse_step fan=11  // Orchestrates 11 calls
+  ★ _find_repo_root fan=10  // Orchestrates 10 calls
+
+REFACTOR[1]:
+  [1] H/H Split god module goal.yaml (525L, 0 classes)
+
+EVOLUTION:
+  2026-06-21 CC̄=4.7 crit=6 1805L // Automated analysis

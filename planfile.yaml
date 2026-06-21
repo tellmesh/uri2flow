@@ -1,0 +1,331 @@
+name: Code Quality Improvement
+project_name: ''
+project_type: prefactoring
+domain: dev-tools
+goal: Improve code quality using prefact
+goals:
+- Fix all prefact-detected issues
+- Improve code maintainability
+- Ensure consistent code style
+quality_gates:
+- metric: Prefact Issues
+  threshold: '0'
+sprints:
+- id: sprint-1
+  name: Code Quality Improvements
+  duration: 2 weeks
+  objectives:
+  - Fix code quality issues
+  task_patterns:
+  - id: ticket-a48ae201
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in tests/integration/test_flow_to_workflow_execution.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - tests/integration/test_flow_to_workflow_execution.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-56520637
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in tests/conftest.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - tests/conftest.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-b0f62ef4
+    name: Fix smart-return-type issues
+    description: Resolve 8 smart-return-type issues in tests/test_flow_defaults.py
+    task_type: prefactor
+    priority: high
+    estimate: 2d
+    files:
+    - tests/test_flow_defaults.py
+    rule_id: smart-return-type
+    count: 8
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-fd0b7d23
+    name: Fix smart-return-type issues
+    description: Resolve 1 smart-return-type issues in tests/test_parser_forms.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - tests/test_parser_forms.py
+    rule_id: smart-return-type
+    count: 1
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-45a2aa85
+    name: Fix smart-return-type issues
+    description: Resolve 11 smart-return-type issues in tests/test_uri2flow_markpact_loader.py
+    task_type: prefactor
+    priority: high
+    estimate: 3d
+    files:
+    - tests/test_uri2flow_markpact_loader.py
+    rule_id: smart-return-type
+    count: 11
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-9d27969f
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in tests/test_uri2flow_markpact_loader.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - tests/test_uri2flow_markpact_loader.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-49078dba
+    name: Fix relative-imports issues
+    description: Resolve 8 relative-imports issues in uri2flow/__init__.py
+    task_type: prefactor
+    priority: high
+    estimate: 2d
+    files:
+    - uri2flow/__init__.py
+    rule_id: relative-imports
+    count: 8
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-e05cb112
+    name: Fix relative-imports issues
+    description: Resolve 6 relative-imports issues in uri2flow/cli.py
+    task_type: prefactor
+    priority: high
+    estimate: 2d
+    files:
+    - uri2flow/cli.py
+    rule_id: relative-imports
+    count: 6
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-8f0b8f42
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/cli.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/cli.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-83f3f82f
+    name: Fix ai-boilerplate issues
+    description: Resolve 1 ai-boilerplate issues in uri2flow/cli.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/cli.py
+    rule_id: ai-boilerplate
+    count: 1
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-77879020
+    name: Fix relative-imports issues
+    description: Resolve 8 relative-imports issues in uri2flow/expander.py
+    task_type: prefactor
+    priority: high
+    estimate: 2d
+    files:
+    - uri2flow/expander.py
+    rule_id: relative-imports
+    count: 8
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-8e380129
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/expander.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/expander.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-ad6e5b0c
+    name: Fix relative-imports issues
+    description: Resolve 2 relative-imports issues in uri2flow/loaders/__init__.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/loaders/__init__.py
+    rule_id: relative-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-ba173f12
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/loaders/markpact_loader.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/loaders/markpact_loader.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-79cdbb56
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/models.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/models.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-7388bc88
+    name: Fix relative-imports issues
+    description: Resolve 6 relative-imports issues in uri2flow/parser.py
+    task_type: prefactor
+    priority: high
+    estimate: 2d
+    files:
+    - uri2flow/parser.py
+    rule_id: relative-imports
+    count: 6
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-24e0a8c1
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/parser.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/parser.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-5c62b2fe
+    name: Fix string-concat issues
+    description: Resolve 2 string-concat issues in uri2flow/resolver.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/resolver.py
+    rule_id: string-concat
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-f7d17dcc
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/resolver.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/resolver.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-baa6d811
+    name: Fix string-concat issues
+    description: Resolve 1 string-concat issues in uri2flow/utils.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/utils.py
+    rule_id: string-concat
+    count: 1
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-ba85a881
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/utils.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/utils.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-cc4f3d68
+    name: Fix relative-imports issues
+    description: Resolve 4 relative-imports issues in uri2flow/validator.py
+    task_type: prefactor
+    priority: medium
+    estimate: 2d
+    files:
+    - uri2flow/validator.py
+    rule_id: relative-imports
+    count: 4
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-bdc4ce38
+    name: Fix string-concat issues
+    description: Resolve 1 string-concat issues in uri2flow/validator.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/validator.py
+    rule_id: string-concat
+    count: 1
+    model_hints:
+      planning: balanced
+      implementation: balanced
+  - id: ticket-a85864df
+    name: Fix unused-imports issues
+    description: Resolve 2 unused-imports issues in uri2flow/validator.py
+    task_type: prefactor
+    priority: medium
+    estimate: 1d
+    files:
+    - uri2flow/validator.py
+    rule_id: unused-imports
+    count: 2
+    model_hints:
+      planning: balanced
+      implementation: balanced

@@ -1,0 +1,17 @@
+flowchart TD
+%% generated in 0.01s
+    uri2flow__cli["uri2flow.cli<br/>5 funcs"]
+    uri2flow__expander["uri2flow.expander<br/>4 funcs"]
+    uri2flow__parser["uri2flow.parser<br/>4 funcs"]
+    uri2flow__resolver["uri2flow.resolver<br/>10 funcs"]
+    uri2flow__utils["uri2flow.utils<br/>4 funcs"]
+    uri2flow__validator["uri2flow.validator<br/>3 funcs"]
+    uri2flow__cli ==>|4| uri2flow__expander
+    uri2flow__validator -->|2| uri2flow__parser
+    uri2flow__expander -->|2| uri2flow__parser
+    uri2flow__validator -->|1| uri2flow__expander
+    uri2flow__cli -->|1| uri2flow__validator
+    uri2flow__cli -->|1| uri2flow__parser
+    uri2flow__expander -->|1| uri2flow__resolver
+    uri2flow__expander -->|1| uri2flow__utils
+    uri2flow__parser -->|1| uri2flow__utils

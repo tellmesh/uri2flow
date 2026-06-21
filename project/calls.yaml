@@ -1,0 +1,360 @@
+project: /home/tom/github/tellmesh/uri2flow
+generated_from: code2llm call graph analysis
+stats:
+  total_nodes: 29
+  total_edges: 35
+  modules_count: 6
+nodes:
+  uri2flow.validator.validate_expanded_flow:
+    name: validate_expanded_flow
+    module: uri2flow.validator
+    line: 34
+    cyclomatic_complexity: 2
+    calls_out: 5
+    calls_in: 0
+  uri2flow.validator.validate_flow_document:
+    name: validate_flow_document
+    module: uri2flow.validator
+    line: 12
+    cyclomatic_complexity: 10
+    calls_out: 9
+    calls_in: 2
+  uri2flow.resolver._defaults_from_scheme:
+    name: _defaults_from_scheme
+    module: uri2flow.resolver
+    line: 88
+    cyclomatic_complexity: 3
+    calls_out: 5
+    calls_in: 1
+  uri2flow.expander._node_from_step:
+    name: _node_from_step
+    module: uri2flow.expander
+    line: 14
+    cyclomatic_complexity: 11
+    calls_out: 3
+    calls_in: 1
+  uri2flow.cli.main:
+    name: main
+    module: uri2flow.cli
+    line: 68
+    cyclomatic_complexity: 1
+    calls_out: 3
+    calls_in: 0
+  uri2flow.cli.cmd_validate:
+    name: cmd_validate
+    module: uri2flow.cli
+    line: 13
+    cyclomatic_complexity: 2
+    calls_out: 4
+    calls_in: 0
+  uri2flow.expander._edges_from_depends:
+    name: _edges_from_depends
+    module: uri2flow.expander
+    line: 35
+    cyclomatic_complexity: 4
+    calls_out: 2
+    calls_in: 1
+  uri2flow.cli.cmd_print:
+    name: cmd_print
+    module: uri2flow.cli
+    line: 31
+    cyclomatic_complexity: 1
+    calls_out: 4
+    calls_in: 0
+  uri2flow.cli.cmd_expand:
+    name: cmd_expand
+    module: uri2flow.cli
+    line: 20
+    cyclomatic_complexity: 3
+    calls_out: 8
+    calls_in: 0
+  uri2flow.parser._as_list:
+    name: _as_list
+    module: uri2flow.parser
+    line: 17
+    cyclomatic_complexity: 5
+    calls_out: 5
+    calls_in: 1
+  uri2flow.utils.node_id_from_uri:
+    name: node_id_from_uri
+    module: uri2flow.utils
+    line: 26
+    cyclomatic_complexity: 5
+    calls_out: 7
+    calls_in: 1
+  uri2flow.expander.expand_flow:
+    name: expand_flow
+    module: uri2flow.expander
+    line: 43
+    cyclomatic_complexity: 6
+    calls_out: 8
+    calls_in: 2
+  uri2flow.utils.path_parts:
+    name: path_parts
+    module: uri2flow.utils
+    line: 17
+    cyclomatic_complexity: 4
+    calls_out: 4
+    calls_in: 1
+  uri2flow.parser.parse_flow:
+    name: parse_flow
+    module: uri2flow.parser
+    line: 61
+    cyclomatic_complexity: 12
+    calls_out: 16
+    calls_in: 3
+  uri2flow.resolver._load_flow_defaults_config:
+    name: _load_flow_defaults_config
+    module: uri2flow.resolver
+    line: 70
+    cyclomatic_complexity: 4
+    calls_out: 7
+    calls_in: 3
+  uri2flow.resolver._fallback_defaults:
+    name: _fallback_defaults
+    module: uri2flow.resolver
+    line: 105
+    cyclomatic_complexity: 4
+    calls_out: 5
+    calls_in: 1
+  uri2flow.parser.load_flow:
+    name: load_flow
+    module: uri2flow.parser
+    line: 91
+    cyclomatic_complexity: 4
+    calls_out: 8
+    calls_in: 3
+  uri2flow.cli.build_parser:
+    name: build_parser
+    module: uri2flow.cli
+    line: 37
+    cyclomatic_complexity: 1
+    calls_out: 14
+    calls_in: 1
+  uri2flow.resolver._defaults_from_patterns:
+    name: _defaults_from_patterns
+    module: uri2flow.resolver
+    line: 95
+    cyclomatic_complexity: 7
+    calls_out: 7
+    calls_in: 1
+  uri2flow.resolver._pattern_to_regex:
+    name: _pattern_to_regex
+    module: uri2flow.resolver
+    line: 53
+    cyclomatic_complexity: 4
+    calls_out: 8
+    calls_in: 1
+  uri2flow.utils.slugify:
+    name: slugify
+    module: uri2flow.utils
+    line: 7
+    cyclomatic_complexity: 2
+    calls_out: 4
+    calls_in: 2
+  uri2flow.resolver._defaults_from_entry:
+    name: _defaults_from_entry
+    module: uri2flow.resolver
+    line: 80
+    cyclomatic_complexity: 3
+    calls_out: 7
+    calls_in: 3
+  uri2flow.resolver._match_pattern:
+    name: _match_pattern
+    module: uri2flow.resolver
+    line: 63
+    cyclomatic_complexity: 2
+    calls_out: 3
+    calls_in: 1
+  uri2flow.validator.validate_flow:
+    name: validate_flow
+    module: uri2flow.validator
+    line: 43
+    cyclomatic_complexity: 11
+    calls_out: 5
+    calls_in: 1
+  uri2flow.expander.dump_yaml:
+    name: dump_yaml
+    module: uri2flow.expander
+    line: 80
+    cyclomatic_complexity: 1
+    calls_out: 1
+    calls_in: 3
+  uri2flow.utils.scheme_of:
+    name: scheme_of
+    module: uri2flow.utils
+    line: 13
+    cyclomatic_complexity: 1
+    calls_out: 1
+    calls_in: 1
+  uri2flow.resolver.default_operation_for_uri:
+    name: default_operation_for_uri
+    module: uri2flow.resolver
+    line: 112
+    cyclomatic_complexity: 3
+    calls_out: 4
+    calls_in: 1
+  uri2flow.resolver._find_repo_root:
+    name: _find_repo_root
+    module: uri2flow.resolver
+    line: 18
+    cyclomatic_complexity: 9
+    calls_out: 19
+    calls_in: 1
+  uri2flow.parser._parse_step:
+    name: _parse_step
+    module: uri2flow.parser
+    line: 27
+    cyclomatic_complexity: 10
+    calls_out: 29
+    calls_in: 1
+edges:
+- caller: uri2flow.validator.validate_flow_document
+  callee: uri2flow.parser.parse_flow
+  call_type: resolved
+- caller: uri2flow.validator.validate_expanded_flow
+  callee: uri2flow.validator.validate_flow_document
+  call_type: resolved
+- caller: uri2flow.validator.validate_expanded_flow
+  callee: uri2flow.expander.expand_flow
+  call_type: resolved
+- caller: uri2flow.validator.validate_flow
+  callee: uri2flow.parser.load_flow
+  call_type: resolved
+- caller: uri2flow.validator.validate_flow
+  callee: uri2flow.validator.validate_flow_document
+  call_type: resolved
+- caller: uri2flow.cli.cmd_validate
+  callee: uri2flow.validator.validate_flow
+  call_type: resolved
+- caller: uri2flow.cli.cmd_validate
+  callee: uri2flow.expander.dump_yaml
+  call_type: resolved
+- caller: uri2flow.cli.cmd_expand
+  callee: uri2flow.expander.expand_flow
+  call_type: resolved
+- caller: uri2flow.cli.cmd_expand
+  callee: uri2flow.expander.dump_yaml
+  call_type: resolved
+- caller: uri2flow.cli.cmd_print
+  callee: uri2flow.parser.load_flow
+  call_type: resolved
+- caller: uri2flow.cli.cmd_print
+  callee: uri2flow.expander.dump_yaml
+  call_type: resolved
+- caller: uri2flow.cli.main
+  callee: uri2flow.cli.build_parser
+  call_type: resolved
+- caller: uri2flow.expander._node_from_step
+  callee: uri2flow.resolver.default_operation_for_uri
+  call_type: resolved
+- caller: uri2flow.expander._node_from_step
+  callee: uri2flow.utils.node_id_from_uri
+  call_type: resolved
+- caller: uri2flow.expander.expand_flow
+  callee: uri2flow.parser.load_flow
+  call_type: resolved
+- caller: uri2flow.expander.expand_flow
+  callee: uri2flow.expander._node_from_step
+  call_type: resolved
+- caller: uri2flow.expander.expand_flow
+  callee: uri2flow.expander._edges_from_depends
+  call_type: resolved
+- caller: uri2flow.expander.expand_flow
+  callee: uri2flow.parser.parse_flow
+  call_type: resolved
+- caller: uri2flow.parser._parse_step
+  callee: uri2flow.parser._as_list
+  call_type: resolved
+- caller: uri2flow.parser.load_flow
+  callee: uri2flow.parser.parse_flow
+  call_type: resolved
+- caller: uri2flow.utils.node_id_from_uri
+  callee: uri2flow.utils.path_parts
+  call_type: resolved
+- caller: uri2flow.utils.node_id_from_uri
+  callee: uri2flow.utils.scheme_of
+  call_type: resolved
+- caller: uri2flow.utils.node_id_from_uri
+  callee: uri2flow.utils.slugify
+  call_type: resolved
+- caller: uri2flow.resolver._match_pattern
+  callee: uri2flow.resolver._pattern_to_regex
+  call_type: resolved
+- caller: uri2flow.resolver._load_flow_defaults_config
+  callee: uri2flow.resolver._find_repo_root
+  call_type: resolved
+- caller: uri2flow.resolver._defaults_from_scheme
+  callee: uri2flow.resolver._defaults_from_entry
+  call_type: resolved
+- caller: uri2flow.resolver._defaults_from_scheme
+  callee: uri2flow.resolver._load_flow_defaults_config
+  call_type: resolved
+- caller: uri2flow.resolver._defaults_from_patterns
+  callee: uri2flow.resolver._match_pattern
+  call_type: resolved
+- caller: uri2flow.resolver._defaults_from_patterns
+  callee: uri2flow.resolver._defaults_from_entry
+  call_type: resolved
+- caller: uri2flow.resolver._defaults_from_patterns
+  callee: uri2flow.resolver._load_flow_defaults_config
+  call_type: resolved
+- caller: uri2flow.resolver._fallback_defaults
+  callee: uri2flow.resolver._defaults_from_entry
+  call_type: resolved
+- caller: uri2flow.resolver._fallback_defaults
+  callee: uri2flow.resolver._load_flow_defaults_config
+  call_type: resolved
+- caller: uri2flow.resolver.default_operation_for_uri
+  callee: uri2flow.resolver._defaults_from_patterns
+  call_type: resolved
+- caller: uri2flow.resolver.default_operation_for_uri
+  callee: uri2flow.resolver._defaults_from_scheme
+  call_type: resolved
+- caller: uri2flow.resolver.default_operation_for_uri
+  callee: uri2flow.resolver._fallback_defaults
+  call_type: resolved
+modules:
+  uri2flow.cli:
+  - uri2flow.cli.build_parser
+  - uri2flow.cli.cmd_expand
+  - uri2flow.cli.cmd_print
+  - uri2flow.cli.cmd_validate
+  - uri2flow.cli.main
+  uri2flow.expander:
+  - uri2flow.expander._edges_from_depends
+  - uri2flow.expander._node_from_step
+  - uri2flow.expander.dump_yaml
+  - uri2flow.expander.expand_flow
+  uri2flow.parser:
+  - uri2flow.parser._as_list
+  - uri2flow.parser._parse_step
+  - uri2flow.parser.load_flow
+  - uri2flow.parser.parse_flow
+  uri2flow.resolver:
+  - uri2flow.resolver._defaults_from_entry
+  - uri2flow.resolver._defaults_from_patterns
+  - uri2flow.resolver._defaults_from_scheme
+  - uri2flow.resolver._fallback_defaults
+  - uri2flow.resolver._find_repo_root
+  - uri2flow.resolver._load_flow_defaults_config
+  - uri2flow.resolver._match_pattern
+  - uri2flow.resolver._pattern_to_regex
+  - uri2flow.resolver.default_operation_for_uri
+  uri2flow.utils:
+  - uri2flow.utils.node_id_from_uri
+  - uri2flow.utils.path_parts
+  - uri2flow.utils.scheme_of
+  - uri2flow.utils.slugify
+  uri2flow.validator:
+  - uri2flow.validator.validate_expanded_flow
+  - uri2flow.validator.validate_flow
+  - uri2flow.validator.validate_flow_document
+entry_points:
+- uri2flow.cli.cmd_expand
+- uri2flow.cli.cmd_print
+- uri2flow.cli.cmd_validate
+- uri2flow.cli.main
+- uri2flow.models.FlowDocument.to_dict
+- uri2flow.resolver.clear_defaults_cache
+- uri2flow.validator.validate_expanded_flow

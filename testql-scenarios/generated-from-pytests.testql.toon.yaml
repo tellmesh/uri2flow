@@ -1,0 +1,46 @@
+# SCENARIO: Auto-generated from Python Tests
+# TYPE: integration
+# GENERATED: true
+
+CONFIG[2]{key, value}:
+  base_url, ${api_url:-http://localhost:8101}
+  timeout_ms, 10000
+
+# Converted 36 assertions from pytest
+ASSERT[36]{field, operator, expected}:
+  flow.id, ==, "weather-health"
+  flow.steps[-1].uri, ==, "browser://chrome/page/open"
+  flow.steps[-1].payload.url, ==, "http://localhost:8101/health"
+  graph.nl2uri.kind, ==, "workflow_graph"
+  validate_workflow_graph(graph), ==, []
+  nodes[0].uri, ==, "agent://weather-generator"
+  nodes[2].payload.url, ==, "http://localhost:8101/health"
+  len(flow.steps), ==, 3
+  flow.steps[1].payload.url, ==, "http://x"
+  flow.steps[2].after, ==, ["open"]
+  defaults.operation, ==, "read"
+  defaults.kind, ==, "query"
+  graph.nl2uri.kind, ==, "workflow_graph"
+  nodes[0].operation, ==, "generate"
+  nodes[0].kind, ==, "command"
+  nodes[1].depends_on, ==, [nodes[0]["id"]]
+  nodes[2].payload.url, ==, "http://localhost:8101/health"
+  nodes[2].operation, ==, "open"
+  flow.id, ==, "weather-health"
+  flow.steps[-1].uri, ==, "browser://chrome/page/open"
+  flow.steps[-1].payload.url, ==, "http://localhost:8101/health"
+  graph.nl2uri.kind, ==, "workflow_graph"
+  validate_workflow_graph(graph), ==, []
+  nodes[0].uri, ==, "agent://weather-generator"
+  nodes[2].payload.url, ==, "http://localhost:8101/health"
+  len(flow.steps), ==, 3
+  flow.steps[1].payload.url, ==, "http://x"
+  flow.steps[2].after, ==, ["open"]
+  defaults.operation, ==, "read"
+  defaults.kind, ==, "query"
+  graph.nl2uri.kind, ==, "workflow_graph"
+  nodes[0].operation, ==, "generate"
+  nodes[0].kind, ==, "command"
+  nodes[1].depends_on, ==, [nodes[0]["id"]]
+  nodes[2].payload.url, ==, "http://localhost:8101/health"
+  nodes[2].operation, ==, "open"

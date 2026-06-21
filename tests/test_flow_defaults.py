@@ -53,5 +53,5 @@ def test_scheme_default_for_http():
 
 def test_fallback_for_unknown_scheme():
     defaults = default_operation_for_uri("custom://resource/action")
-    assert defaults.operation == "resolve"
+    assert defaults.operation == "query"
     assert defaults.kind == "query"

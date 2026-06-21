@@ -1,0 +1,131 @@
+# uri2flow | 24f 1082L | python:20,shell:3,less:1 | 2026-06-21
+# stats: 60 func | 4 cls | 24 mod | CC̄=4.0 | critical:5 | cycles:0
+# alerts[5]: CC parse_flow=12; CC _node_from_step=11; CC validate_flow=11; CC _parse_step=10; CC validate_flow_document=10
+# hotspots[5]: _parse_step fan=11; _find_repo_root fan=10; load_flow fan=8; cmd_expand fan=7; expand_flow fan=7
+# evolution: baseline
+# Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
+M[24]:
+  app.doql.less,39
+  examples/33_office_workflows/run.sh,42
+  project.sh,59
+  tests/__init__.py,1
+  tests/conftest.py,59
+  tests/integration/__init__.py,1
+  tests/integration/test_flow_to_workflow_execution.py,39
+  tests/test_cli.py,13
+  tests/test_expand_branching_flow.py,14
+  tests/test_expand_linear_flow.py,15
+  tests/test_flow_defaults.py,58
+  tests/test_parser_forms.py,16
+  tests/test_uri2flow_markpact_loader.py,125
+  tree.sh,2
+  uri2flow/__init__.py,17
+  uri2flow/cli.py,76
+  uri2flow/expander.py,82
+  uri2flow/loaders/__init__.py,20
+  uri2flow/loaders/markpact_loader.py,24
+  uri2flow/models.py,48
+  uri2flow/parser.py,100
+  uri2flow/resolver.py,128
+  uri2flow/utils.py,39
+  uri2flow/validator.py,65
+D:
+  tests/__init__.py:
+  tests/conftest.py:
+    e: _hypervisor_root,repo_root
+    _hypervisor_root()
+    repo_root()
+  tests/integration/__init__.py:
+  tests/integration/test_flow_to_workflow_execution.py:
+    e: test_compact_flow_to_dry_run,test_branching_flow_has_expected_edges,test_nl2uri_flow_expands_and_validates
+    test_compact_flow_to_dry_run(repo_root)
+    test_branching_flow_has_expected_edges(repo_root)
+    test_nl2uri_flow_expands_and_validates()
+  tests/test_cli.py:
+    e: test_cli_expand
+    test_cli_expand(repo_root;tmp_path)
+  tests/test_expand_branching_flow.py:
+    e: test_expand_branching_flow
+    test_expand_branching_flow(repo_root)
+  tests/test_expand_linear_flow.py:
+    e: test_expand_linear_flow
+    test_expand_linear_flow(repo_root)
+  tests/test_flow_defaults.py:
+    e: setup_function,test_pattern_match_hypervisor_run,test_pattern_match_hypervisor_restart,test_pattern_match_browser_open,test_pattern_match_dom_extract,test_pattern_match_screen_observe,test_pattern_match_input_type,test_scheme_default_for_http,test_fallback_for_unknown_scheme
+    setup_function()
+    test_pattern_match_hypervisor_run()
+    test_pattern_match_hypervisor_restart()
+    test_pattern_match_browser_open()
+    test_pattern_match_dom_extract()
+    test_pattern_match_screen_observe()
+    test_pattern_match_input_type()
+    test_scheme_default_for_http()
+    test_fallback_for_unknown_scheme()
+  tests/test_parser_forms.py:
+    e: test_accepts_string_and_mapping_forms
+    test_accepts_string_and_mapping_forms()
+  tests/test_uri2flow_markpact_loader.py:
+    e: _markpact_ref,test_is_markpact_registry,test_extract_markpact_flow_blocks,test_load_markpact_flow_dict,test_load_flow_markpact_ref,test_expand_flow_markpact_ref,test_markpact_flow_requires_fragment_when_ambiguous,test_markpact_flow_matches_yaml_flow,test_resolve_markpact_ref,test_uri2flow_expand_cli,test_missing_flow_fragment_raises,test_missing_markpact_readme_raises
+    _markpact_ref(repo_root;fragment)
+    test_is_markpact_registry()
+    test_extract_markpact_flow_blocks()
+    test_load_markpact_flow_dict(repo_root)
+    test_load_flow_markpact_ref(repo_root)
+    test_expand_flow_markpact_ref(repo_root)
+    test_markpact_flow_requires_fragment_when_ambiguous(tmp_path)
+    test_markpact_flow_matches_yaml_flow(repo_root)
+    test_resolve_markpact_ref(repo_root)
+    test_uri2flow_expand_cli(repo_root;tmp_path)
+    test_missing_flow_fragment_raises(repo_root)
+    test_missing_markpact_readme_raises(repo_root)
+  uri2flow/__init__.py:
+  uri2flow/cli.py:
+    e: cmd_validate,cmd_expand,cmd_print,build_parser,main
+    cmd_validate(args)
+    cmd_expand(args)
+    cmd_print(args)
+    build_parser()
+    main(argv)
+  uri2flow/expander.py:
+    e: _node_from_step,_edges_from_depends,expand_flow,dump_yaml
+    _node_from_step(step;previous_id;used)
+    _edges_from_depends(nodes)
+    expand_flow(flow)
+    dump_yaml(data)
+  uri2flow/loaders/__init__.py:
+  uri2flow/loaders/markpact_loader.py:
+  uri2flow/models.py:
+    e: FlowStep,FlowDocument
+    FlowStep:
+    FlowDocument: to_dict(0)
+  uri2flow/parser.py:
+    e: _as_list,_parse_step,parse_flow,load_flow,FlowParseError
+    FlowParseError:
+    _as_list(value)
+    _parse_step(raw)
+    parse_flow(data)
+    load_flow(path)
+  uri2flow/resolver.py:
+    e: _find_repo_root,_pattern_to_regex,_match_pattern,_load_flow_defaults_config,_defaults_from_entry,_defaults_from_scheme,_defaults_from_patterns,_fallback_defaults,default_operation_for_uri,clear_defaults_cache,OperationDefaults
+    OperationDefaults:
+    _find_repo_root(start)
+    _pattern_to_regex(pattern)
+    _match_pattern(pattern;uri)
+    _load_flow_defaults_config()
+    _defaults_from_entry(entry)
+    _defaults_from_scheme(scheme)
+    _defaults_from_patterns(uri)
+    _fallback_defaults()
+    default_operation_for_uri(uri)
+    clear_defaults_cache()
+  uri2flow/utils.py:
+    e: slugify,scheme_of,path_parts,node_id_from_uri
+    slugify(value)
+    scheme_of(uri)
+    path_parts(uri)
+    node_id_from_uri(uri;used)
+  uri2flow/validator.py:
+    e: validate_flow_document,validate_expanded_flow,validate_flow
+    validate_flow_document(data)
+    validate_expanded_flow(data)
+    validate_flow(path)

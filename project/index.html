@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<!-- generated in 0.00s -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>code2llm Analysis Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --border: #475569;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #22c55e;
+            --warning: #eab308;
+            --error: #ef4444;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #f8fafc;
+                --surface: #ffffff;
+                --surface-hover: #f1f5f9;
+                --border: #e2e8f0;
+                --text: #1e293b;
+                --text-muted: #64748b;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .search {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            color: var(--text);
+            font-size: 0.875rem;
+            outline: none;
+        }
+
+        .search input:focus {
+            border-color: var(--accent);
+        }
+
+        .search input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .file-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .file-group {
+            margin-bottom: 1rem;
+        }
+
+        .file-group-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding: 0.5rem 0.75rem;
+            font-weight: 600;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-bottom: 0.125rem;
+        }
+
+        .file-item:hover {
+            background: var(--surface-hover);
+        }
+
+        .file-item.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .file-item.active .file-meta {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .file-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-size {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        /* Content */
+        .content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .content-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .content-title h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .content-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            background: var(--surface-hover);
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--border);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .content-body {
+            flex: 1;
+            overflow: auto;
+            padding: 1.5rem;
+        }
+
+        /* Welcome */
+        .welcome {
+            max-width: 800px;
+        }
+
+        .welcome h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .welcome p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Content Display */
+        pre {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+        }
+
+        .markdown-content {
+            line-height: 1.7;
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .markdown-content h1 {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .markdown-content p {
+            margin-bottom: 1rem;
+        }
+
+        .markdown-content code {
+            background: var(--surface);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+        }
+
+        .markdown-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .markdown-content ul,
+        .markdown-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .markdown-content li {
+            margin-bottom: 0.25rem;
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            margin-left: 0;
+            color: var(--text-muted);
+        }
+
+        .markdown-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .markdown-content th,
+        .markdown-content td {
+            border: 1px solid var(--border);
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        .markdown-content th {
+            background: var(--surface);
+        }
+
+        .markdown-content img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        /* Mermaid */
+        .mermaid-content {
+            background: var(--surface);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .mermaid-content pre {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Image Preview */
+        .image-preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background: var(--surface);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .sidebar.open {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 100;
+            }
+
+            .file-size {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="header">
+                <h1>🔍 code2llm</h1>
+                <p>Analysis Results Browser</p>
+            </div>
+            <div class="search">
+                <input type="text" id="search" placeholder="Search files..." oninput="filterFiles(this.value)">
+            </div>
+            <div class="file-list" id="fileList">
+                <!-- Files will be rendered here -->
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="content-header">
+                <div class="content-title">
+                    <span id="contentIcon">📁</span>
+                    <h2 id="contentTitle">Welcome</h2>
+                </div>
+                <div class="content-actions" id="contentActions">
+                    <!-- Actions will be rendered here -->
+                </div>
+            </div>
+            <div class="content-body" id="contentBody">
+                <div class="welcome">
+                    <h2>Analysis Results</h2>
+                    <p>Select a file from the sidebar to view its contents. This interface works on GitHub Pages without any server required.</p>  # noqa: E501
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Stats will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize mermaid
+        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+
+        const files = [{"name": "calls.png", "rel_path": "calls.png", "path": "calls.png", "size": "193.5KB", "icon": "🖼️", "type": "image", "type_name": "Image", "content": "[Binary file]", "is_subdir": false}, {"name": "compact_flow.png", "rel_path": "compact_flow.png", "path": "compact_flow.png", "size": "35.0KB", "icon": "🖼️", "type": "image", "type_name": "Image", "content": "[Binary file]", "is_subdir": false}, {"name": "flow.png", "rel_path": "flow.png", "path": "flow.png", "size": "20.3KB", "icon": "🖼️", "type": "image", "type_name": "Image", "content": "[Binary file]", "is_subdir": false}, {"name": "README.md", "rel_path": "README.md", "path": "README.md", "size": "9.4KB", "icon": "📝", "type": "markdown", "type_name": "Markdown", "content": "# code2llm - Generated Analysis Files\n<!-- generated in 0.00s -->\n\nThis directory contains the complete analysis of your project generated by `code2llm`. Each file serves a specific purpose for understanding, refactoring, and documenting your codebase.  # noqa: E501\n\n## 📁 Generated Files Overview\n\nWhen you run `code2llm ./ -f all`, the following files are created:\n\n### 🎯 Core Analysis Files\n\n| File | Format | Purpose | Key Insights |\n|------|--------|---------|--------------|\n| `evolution.toon.yaml` | **YAML** | **📋 Refactoring queue** - Prioritized improvements | 0 refactoring actions needed |\n| `map.toon.yaml` | **YAML** | **🗺️ Structural map + project header** - Modules, imports, exports, signatures, stats, alerts, hotspots, trend | Project architecture overview |\n\n### 🤖 LLM-Ready Documentation\n\n| File | Format | Purpose | Use Case |\n|------|--------|---------|----------|\n| `prompt.txt` | **Text** | **📝 Ready-to-send prompt** - Lists all files with instructions | Attach to LLM conversation as context guide |\n| `context.md` | **Markdown** | **📖 LLM narrative** - Architecture summary | Paste into ChatGPT/Claude for code analysis |\n\n### 📊 Visualizations\n\n| File | Format | Purpose | Description |\n|------|--------|---------|-------------|\n| `flow.mmd` | **Mermaid** | **🔄 Control flow diagram** | Function call paths with complexity styling |\n| `calls.mmd` | **Mermaid** | **📞 Call graph** | Function dependencies (edges only) |\n| `compact_flow.mmd` | **Mermaid** | **📦 Module overview** | Aggregated module-level view |\n\n## 🚀 Quick Start Commands\n\n### Basic Analysis\n```bash\n# Quick health check (TOON format only)\ncode2llm ./ -f toon\n\n# Generate all formats (what created these files)\ncode2llm ./ -f all\n\n# LLM-ready context only\ncode2llm ./ -f context\n```\n\n### Performance Options\n```bash\n# Fast analysis for large projects\ncode2llm ./ -f toon --strategy quick\n\n# Memory-limited analysis\ncode2llm ./ -f all --max-memory 500\n\n# Skip PNG generation (faster)\ncode2llm ./ -f all --no-png\n```\n\n### Refactoring Focus\n```bash\n# Get refactoring recommendations\ncode2llm ./ -f evolution\n\n# Focus on specific code smells\ncode2llm ./ -f toon --refactor --smell god_function\n\n# Data flow analysis\ncode2llm ./ -f flow --data-flow\n```\n\n## 📖 Understanding Each File\n\n### `analysis.toon` - Health Diagnostics\n**Purpose**: Quick overview of code health issues\n**Key sections**:\n- **HEALTH**: Critical issues (🔴) and warnings (🟡)\n- **REFACTOR**: Prioritized refactoring actions\n- **COUPLING**: Module dependencies and potential cycles\n- **LAYERS**: Package complexity metrics\n- **FUNCTIONS**: High-complexity functions (CC ≥ 10)\n- **CLASSES**: Complex classes needing attention\n\n**Example usage**:\n```bash\n# View health issues\ncat analysis.toon | head -30\n\n# Check refactoring priorities\ngrep \"REFACTOR\" analysis.toon\n```\n\n### `evolution.toon.yaml` - Refactoring Queue\n**Purpose**: Step-by-step refactoring plan\n**Key sections**:\n- **NEXT**: Immediate actions to take\n- **RISKS**: Potential breaking changes\n- **METRICS-TARGET**: Success criteria\n\n**Example usage**:\n```bash\n# Get refactoring plan\ncat evolution.toon.yaml\n\n# Track progress\ngrep \"NEXT\" evolution.toon.yaml\n```\n\n### `flow.toon` - Legacy Data Flow Analysis\n**Purpose**: Understand data movement through the system (legacy / explicit opt-in)\n**Key sections**:\n- **PIPELINES**: Data processing chains\n- **CONTRACTS**: Function input/output contracts\n- **SIDE_EFFECTS**: Functions with external impacts\n\n**Example usage**:\n```bash\n# Find data pipelines\ngrep \"PIPELINES\" flow.toon\n\n# Identify side effects\ngrep \"SIDE_EFFECTS\" flow.toon\n```\n\n### `map.toon.yaml` - Structural Map + Project Header\n**Purpose**: High-level architecture overview plus compact project header\n**Key sections**:\n- **MODULES**: All modules with basic stats\n- **IMPORTS**: Dependency relationships\n- **EXPORTS**: Public API surface and signatures\n- **HEADER**: Stats, alerts, hotspots, evolution trend\n\n**Example usage**:\n```bash\n# See project structure\ncat map.toon.yaml | head -50\n\n# Find public APIs\ngrep \"SIGNATURES\" map.toon.yaml\n```\n\n### `project.toon.yaml` - Compact Analysis View\n**Purpose**: Compact module view generated from project.yaml data\n**Status**: Legacy view generated on demand from unified project.yaml\n\n**Example usage**:\n```bash\n# View compact project structure\ncat project.toon.yaml | head -30\n\n# Find largest files\ngrep -E \"^  .*[0-9]{3,}$\" project.toon.yaml | sort -t',' -k2 -n -r | head -10\n```\n\n### `prompt.txt` - Ready-to-Send LLM Prompt\n**Purpose**: Pre-formatted prompt listing all generated files for LLM conversation\n**Generation**: Written when `code2llm` runs with a source path and requests `-f all` (including `--no-chunk`) or `code2logic`  # noqa: E501\n**Contents**:\n- **Files section**: Lists all existing generated files with descriptions, including `project.toon.yaml` when generated by `-f all`  # noqa: E501\n- **Source files section**: Highlights important source files such as `cli_exports/orchestrator.py`\n- **Missing section**: Shows which files weren't generated (if any)\n- **Task section**: Refactoring brief with concrete execution instructions, not just analysis\n- **Priority Order section**: State-dependent refactoring priorities, starting with blockers and then architecture cleanup  # noqa: E501\n- **Requirements section**: Guidelines for suggested changes\n\n**Example usage**:\n```bash\n# View the prompt\ncat prompt.txt\n\n# Copy to clipboard and paste into ChatGPT/Claude\ncat prompt.txt | pbcopy  # macOS\ncat prompt.txt | xclip -sel clip  # Linux\n```\n\n### `context.md` - LLM Narrative\n**Purpose**: Ready-to-paste context for AI assistants\n**Key sections**:\n- **Overview**: Project statistics\n- **Architecture**: Module breakdown\n- **Entry Points**: Public interfaces\n- **Patterns**: Design patterns detected\n\n**Example usage**:\n```bash\n# Copy to clipboard for LLM\ncat context.md | pbcopy  # macOS\ncat context.md | xclip -sel clip  # Linux\n\n# Use with Claude/ChatGPT for code analysis\n```\n\n### Visualization Files (`*.mmd`, `*.png`)\n**Purpose**: Visual understanding of code structure\n**Files**:\n- `flow.mmd` - Detailed control flow with complexity colors\n- `calls.mmd` - Simple call graph\n- `compact_flow.mmd` - High-level module view\n- `*.png` - Pre-rendered images\n\n**Example usage**:\n```bash\n# View diagrams\nopen flow.png  # macOS\nxdg-open flow.png  # Linux\n\n# Edit in Mermaid Live Editor\n# Copy content of .mmd files to https://mermaid.live\n```\n\n## 🔍 Common Analysis Patterns\n\n### 1. Code Health Assessment\n```bash\n# Quick health check\ncode2llm ./ -f toon\ncat analysis.toon | grep -E \"(HEALTH|REFACTOR)\"\n```\n\n### 2. Refactoring Planning\n```bash\n# Get refactoring queue\ncode2llm ./ -f evolution\ncat evolution.toon.yaml\n\n# Focus on specific issues\ncode2llm ./ -f toon --refactor --smell god_function\n```\n\n### 3. LLM Assistance\n```bash\n# Generate context for AI\ncode2llm ./ -f context\ncat context.md\n\n# Use with Claude: \"Based on this context, help me refactor the god modules\"\n```\n\n### 4. Team Documentation\n```bash\n# Generate all docs for team\ncode2llm ./ -f all -o ./docs/\n\n# Create visual diagrams\nopen docs/flow.png\n```\n\n## 📊 Interpreting Metrics\n\n### Complexity Metrics (CC)\n- **🔴 Critical (≥5.0)**: Immediate refactoring needed\n- **🟠 High (3.0-4.9)**: Consider refactoring\n- **🟡 Medium (1.5-2.9)**: Monitor complexity\n- **🟢 Low (0.1-1.4)**: Acceptable\n- **⚪ Basic (0.0)**: Simple functions\n\n### Module Health\n- **GOD Module**: Too large (>500 lines, >20 methods)\n- **HUB**: High fan-out (calls many modules)\n- **FAN-IN**: High incoming dependencies\n- **CYCLES**: Circular dependencies\n\n### Data Flow Indicators\n- **PIPELINE**: Sequential data processing\n- **CONTRACT**: Clear input/output specification\n- **SIDE_EFFECT**: External state modification\n\n## 🛠️ Integration Examples\n\n### CI/CD Pipeline\n```bash\n#!/bin/bash\n# Analyze code quality in CI\ncode2llm ./ -f toon -o ./analysis\nif grep -q \"🔴 GOD\" ./analysis/analysis.toon; then\n    echo \"❌ God modules detected\"\n    exit 1\nfi\n```\n\n### Pre-commit Hook\n```bash\n#!/bin/sh\n# .git/hooks/pre-commit\ncode2llm ./ -f toon -o ./temp_analysis\nif grep -q \"🔴\" ./temp_analysis/analysis.toon; then\n    echo \"⚠️  Critical issues found. Review before committing.\"\nfi\nrm -rf ./temp_analysis\n```\n\n### Documentation Generation\n```bash\n# Generate docs for README\ncode2llm ./ -f context -o ./docs/\necho \"## Architecture\" >> README.md\ncat docs/context.md >> README.md\n```\n\n## 📚 Next Steps\n\n1. **Review `analysis.toon`** - Identify critical issues\n2. **Check `evolution.toon.yaml`** - Plan refactoring priorities\n3. **Use `context.md`** - Get LLM assistance for complex changes\n4. **Reference visualizations** - Understand system architecture\n5. **Track progress** - Re-run analysis after changes\n\n## 🔧 Advanced Usage\n\n### Custom Analysis\n```bash\n# Deep analysis with all insights\ncode2llm ./ -m hybrid -f all --max-depth 15 -v\n\n# Performance-optimized\ncode2llm ./ -m static -f toon --strategy quick\n\n# Refactoring-focused\ncode2llm ./ -f toon,evolution --refactor\n```\n\n### Output Customization\n```bash\n# Separate output directories\ncode2llm ./ -f all -o ./analysis-$(date +%Y%m%d)\n\n# Split YAML into multiple files\ncode2llm ./ -f yaml --split-output\n\n# Separate orphaned functions\ncode2llm ./ -f yaml --separate-orphans\n```\n\n---\n\n**Generated by**: `code2llm ./ -f all --readme`  \n**Analysis Date**: 2026-06-21  \n**Total Functions**: 31  \n**Total Classes**: 4  \n**Modules**: 30  \n\nFor more information about code2llm, visit: https://github.com/tom-sapletta/code2llm\n", "is_subdir": false}, {"name": "context.md", "rel_path": "context.md", "path": "context.md", "size": "6.5KB", "icon": "📝", "type": "markdown", "type_name": "Markdown", "content": "# System Architecture Analysis\n<!-- generated in 0.00s -->\n\n## Overview\n\n- **Project**: /home/tom/github/tellmesh/uri2flow\n- **Primary Language**: yaml\n- **Languages**: yaml: 15, python: 10, shell: 3, toml: 1, json: 1\n- **Analysis Mode**: static\n- **Total Functions**: 31\n- **Total Classes**: 4\n- **Modules**: 30\n- **Entry Points**: 7\n\n## Architecture by Module\n\n### uri2flow.resolver\n- **Functions**: 10\n- **Classes**: 1\n- **File**: `resolver.py`\n\n### uri2flow.cli\n- **Functions**: 5\n- **File**: `cli.py`\n\n### uri2flow.expander\n- **Functions**: 4\n- **File**: `expander.py`\n\n### uri2flow.parser\n- **Functions**: 4\n- **Classes**: 1\n- **File**: `parser.py`\n\n### uri2flow.utils\n- **Functions**: 4\n- **File**: `utils.py`\n\n### uri2flow.validator\n- **Functions**: 3\n- **File**: `validator.py`\n\n### uri2flow.models\n- **Functions**: 1\n- **Classes**: 2\n- **File**: `models.py`\n\n## Key Entry Points\n\nMain execution flows into the system:\n\n### uri2flow.cli.cmd_expand\n- **Calls**: uri2flow.expander.expand_flow, json.dumps, uri2flow.expander.dump_yaml, None.parent.mkdir, None.write_text, print, Path, Path\n\n### uri2flow.validator.validate_expanded_flow\n> Validate compact flow and its expanded workflow graph.\n- **Calls**: uri2flow.validator.validate_flow_document, validate_workflow_graph, uri2flow.expander.expand_flow, ValueError, None.join\n\n### uri2flow.cli.cmd_validate\n- **Calls**: uri2flow.validator.validate_flow, print, json.dumps, uri2flow.expander.dump_yaml\n\n### uri2flow.cli.cmd_print\n- **Calls**: uri2flow.parser.load_flow, print, uri2flow.expander.dump_yaml, flow.to_dict\n\n### uri2flow.cli.main\n- **Calls**: uri2flow.cli.build_parser, parser.parse_args, args.func\n\n### uri2flow.models.FlowDocument.to_dict\n- **Calls**: None.append, len\n\n### uri2flow.resolver.clear_defaults_cache\n- **Calls**: _load_flow_defaults_config.cache_clear\n\n## Process Flows\n\nKey execution flows identified:\n\n### Flow 1: cmd_expand\n```\ncmd_expand [uri2flow.cli]\n  └─ →> expand_flow\n      └─> _node_from_step\n          └─ →> default_operation_for_uri\n          └─ →> node_id_from_uri\n  └─ →> dump_yaml\n```\n\n### Flow 2: validate_expanded_flow\n```\nvalidate_expanded_flow [uri2flow.validator]\n  └─> validate_flow_document\n      └─ →> parse_flow\n  └─ →> expand_flow\n      └─> _node_from_step\n          └─ →> default_operation_for_uri\n          └─ →> node_id_from_uri\n```\n\n### Flow 3: cmd_validate\n```\ncmd_validate [uri2flow.cli]\n  └─ →> validate_flow\n      └─> validate_flow_document\n          └─ →> parse_flow\n      └─ →> load_flow\n  └─ →> dump_yaml\n```\n\n### Flow 4: cmd_print\n```\ncmd_print [uri2flow.cli]\n  └─ →> load_flow\n      └─> parse_flow\n  └─ →> dump_yaml\n```\n\n### Flow 5: main\n```\nmain [uri2flow.cli]\n  └─> build_parser\n```\n\n### Flow 6: to_dict\n```\nto_dict [uri2flow.models.FlowDocument]\n```\n\n### Flow 7: clear_defaults_cache\n```\nclear_defaults_cache [uri2flow.resolver]\n```\n\n## Key Classes\n\n### uri2flow.models.FlowDocument\n- **Methods**: 1\n- **Key Methods**: uri2flow.models.FlowDocument.to_dict\n\n### uri2flow.parser.FlowParseError\n- **Methods**: 0\n- **Inherits**: ValueError\n\n### uri2flow.models.FlowStep\n- **Methods**: 0\n\n### uri2flow.resolver.OperationDefaults\n- **Methods**: 0\n\n## Data Transformation Functions\n\nKey functions that process and transform data:\n\n### uri2flow.validator.validate_flow_document\n> Validate compact flow structure. Returns non-fatal warnings.\n- **Output to**: set, enumerate, uri2flow.parser.parse_flow, ValueError, ValueError\n\n### uri2flow.validator.validate_expanded_flow\n> Validate compact flow and its expanded workflow graph.\n- **Output to**: uri2flow.validator.validate_flow_document, validate_workflow_graph, uri2flow.expander.expand_flow, ValueError, None.join\n\n### uri2flow.validator.validate_flow\n> Validate compact flow file. Returns warnings, raises on hard errors.\n- **Output to**: uri2flow.parser.load_flow, uri2flow.validator.validate_flow_document, None.append, None.append, len\n\n### uri2flow.cli.cmd_validate\n- **Output to**: uri2flow.validator.validate_flow, print, json.dumps, uri2flow.expander.dump_yaml\n\n### uri2flow.cli.build_parser\n- **Output to**: argparse.ArgumentParser, parser.add_subparsers, sub.add_parser, p.add_argument, p.add_argument\n\n### uri2flow.parser._parse_step\n- **Output to**: isinstance, isinstance, FlowParseError, FlowStep, uri2flow.parser._as_list\n\n### uri2flow.parser.parse_flow\n- **Output to**: data.get, str, flow_meta.get, FlowDocument, None.get\n\n## Public API Surface\n\nFunctions exposed as public API (no underscore prefix):\n\n- `uri2flow.parser.parse_flow` - 16 calls\n- `uri2flow.cli.build_parser` - 14 calls\n- `uri2flow.validator.validate_flow_document` - 9 calls\n- `uri2flow.cli.cmd_expand` - 8 calls\n- `uri2flow.expander.expand_flow` - 8 calls\n- `uri2flow.parser.load_flow` - 8 calls\n- `uri2flow.utils.node_id_from_uri` - 7 calls\n- `uri2flow.validator.validate_expanded_flow` - 5 calls\n- `uri2flow.validator.validate_flow` - 5 calls\n- `uri2flow.cli.cmd_validate` - 4 calls\n- `uri2flow.cli.cmd_print` - 4 calls\n- `uri2flow.utils.slugify` - 4 calls\n- `uri2flow.utils.path_parts` - 4 calls\n- `uri2flow.resolver.default_operation_for_uri` - 4 calls\n- `uri2flow.cli.main` - 3 calls\n- `uri2flow.models.FlowDocument.to_dict` - 2 calls\n- `uri2flow.expander.dump_yaml` - 1 calls\n- `uri2flow.utils.scheme_of` - 1 calls\n- `uri2flow.resolver.clear_defaults_cache` - 1 calls\n\n## System Interactions\n\nHow components interact:\n\n```mermaid\ngraph TD\n    cmd_expand --> expand_flow\n    cmd_expand --> dumps\n    cmd_expand --> dump_yaml\n    cmd_expand --> mkdir\n    cmd_expand --> write_text\n    validate_expanded_fl --> validate_flow_docume\n    validate_expanded_fl --> validate_workflow_gr\n    validate_expanded_fl --> expand_flow\n    validate_expanded_fl --> ValueError\n    validate_expanded_fl --> join\n    cmd_validate --> validate_flow\n    cmd_validate --> print\n    cmd_validate --> dumps\n    cmd_validate --> dump_yaml\n    cmd_print --> load_flow\n    cmd_print --> print\n    cmd_print --> dump_yaml\n    cmd_print --> to_dict\n    main --> build_parser\n    main --> parse_args\n    main --> func\n    to_dict --> append\n    to_dict --> len\n    clear_defaults_cache --> cache_clear\n```\n\n## Reverse Engineering Guidelines\n\n1. **Entry Points**: Start analysis from the entry points listed above\n2. **Core Logic**: Focus on classes with many methods\n3. **Data Flow**: Follow data transformation functions\n4. **Process Flows**: Use the flow diagrams for execution paths\n5. **API Surface**: Public API functions reveal the interface\n\n## Context for LLM\n\nMaintain the identified architectural patterns and public API surface when suggesting changes.", "is_subdir": false}, {"name": "calls.mmd", "rel_path": "calls.mmd", "path": "calls.mmd", "size": "4.7KB", "icon": "📈", "type": "mermaid", "type_name": "Mermaid", "content": "flowchart LR\n%% generated in 0.01s\n    subgraph uri2flow__cli\n        uri2flow__cli__main[&quot;main&quot;]\n        uri2flow__cli__cmd_validate[&quot;cmd_validate&quot;]\n        uri2flow__cli__cmd_print[&quot;cmd_print&quot;]\n        uri2flow__cli__cmd_expand[&quot;cmd_expand&quot;]\n        uri2flow__cli__build_parser[&quot;build_parser&quot;]\n    end\n    subgraph uri2flow__expander\n        uri2flow__expander___node_from_step[&quot;_node_from_step&quot;]\n        uri2flow__expander___edges_from_depends[&quot;_edges_from_depends&quot;]\n        uri2flow__expander__expand_flow[&quot;expand_flow&quot;]\n        uri2flow__expander__dump_yaml[&quot;dump_yaml&quot;]\n    end\n    subgraph uri2flow__parser\n        uri2flow__parser___as_list[&quot;_as_list&quot;]\n        uri2flow__parser__parse_flow[&quot;parse_flow&quot;]\n        uri2flow__parser__load_flow[&quot;load_flow&quot;]\n        uri2flow__parser___parse_step[&quot;_parse_step&quot;]\n    end\n    subgraph uri2flow__resolver\n        uri2flow__resolver___defaults_from_scheme[&quot;_defaults_from_scheme&quot;]\n        uri2flow__resolver___load_flow_defaults_config[&quot;_load_flow_defaults_config&quot;]\n        uri2flow__resolver___fallback_defaults[&quot;_fallback_defaults&quot;]\n        uri2flow__resolver___defaults_from_patterns[&quot;_defaults_from_patterns&quot;]\n        uri2flow__resolver___pattern_to_regex[&quot;_pattern_to_regex&quot;]\n        uri2flow__resolver___defaults_from_entry[&quot;_defaults_from_entry&quot;]\n        uri2flow__resolver___match_pattern[&quot;_match_pattern&quot;]\n        uri2flow__resolver__default_operation_for_uri[&quot;default_operation_for_uri&quot;]\n        uri2flow__resolver___find_repo_root[&quot;_find_repo_root&quot;]\n    end\n    subgraph uri2flow__utils\n        uri2flow__utils__node_id_from_uri[&quot;node_id_from_uri&quot;]\n        uri2flow__utils__path_parts[&quot;path_parts&quot;]\n        uri2flow__utils__slugify[&quot;slugify&quot;]\n        uri2flow__utils__scheme_of[&quot;scheme_of&quot;]\n    end\n    subgraph uri2flow__validator\n        uri2flow__validator__validate_expanded_flow[&quot;validate_expanded_flow&quot;]\n        uri2flow__validator__validate_flow_document[&quot;validate_flow_document&quot;]\n        uri2flow__validator__validate_flow[&quot;validate_flow&quot;]\n    end\n    uri2flow__validator__validate_flow_document --&gt; uri2flow__parser__parse_flow\n    uri2flow__validator__validate_expanded_flow --&gt; uri2flow__validator__validate_flow_document\n    uri2flow__validator__validate_expanded_flow --&gt; uri2flow__expander__expand_flow\n    uri2flow__validator__validate_flow --&gt; uri2flow__parser__load_flow\n    uri2flow__validator__validate_flow --&gt; uri2flow__validator__validate_flow_document\n    uri2flow__cli__cmd_validate --&gt; uri2flow__validator__validate_flow\n    uri2flow__cli__cmd_validate --&gt; uri2flow__expander__dump_yaml\n    uri2flow__cli__cmd_expand --&gt; uri2flow__expander__expand_flow\n    uri2flow__cli__cmd_expand --&gt; uri2flow__expander__dump_yaml\n    uri2flow__cli__cmd_print --&gt; uri2flow__parser__load_flow\n    uri2flow__cli__cmd_print --&gt; uri2flow__expander__dump_yaml\n    uri2flow__cli__main --&gt; uri2flow__cli__build_parser\n    uri2flow__expander___node_from_step --&gt; uri2flow__resolver__default_operation_for_uri\n    uri2flow__expander___node_from_step --&gt; uri2flow__utils__node_id_from_uri\n    uri2flow__expander__expand_flow --&gt; uri2flow__parser__load_flow\n    uri2flow__expander__expand_flow --&gt; uri2flow__expander___node_from_step\n    uri2flow__expander__expand_flow --&gt; uri2flow__expander___edges_from_depends\n    uri2flow__expander__expand_flow --&gt; uri2flow__parser__parse_flow\n    uri2flow__parser___parse_step --&gt; uri2flow__parser___as_list\n    uri2flow__parser__load_flow --&gt; uri2flow__parser__parse_flow\n    uri2flow__utils__node_id_from_uri --&gt; uri2flow__utils__path_parts\n    uri2flow__utils__node_id_from_uri --&gt; uri2flow__utils__scheme_of\n    uri2flow__utils__node_id_from_uri --&gt; uri2flow__utils__slugify\n    uri2flow__resolver___match_pattern --&gt; uri2flow__resolver___pattern_to_regex\n    uri2flow__resolver___load_flow_defaults_config --&gt; uri2flow__resolver___find_repo_root\n    uri2flow__resolver___defaults_from_scheme --&gt; uri2flow__resolver___defaults_from_entry\n    uri2flow__resolver___defaults_from_scheme --&gt; uri2flow__resolver___load_flow_defaults_config\n    uri2flow__resolver___defaults_from_patterns --&gt; uri2flow__resolver___match_pattern\n    uri2flow__resolver___defaults_from_patterns --&gt; uri2flow__resolver___defaults_from_entry\n    uri2flow__resolver___defaults_from_patterns --&gt; uri2flow__resolver___load_flow_defaults_config\n    uri2flow__resolver___fallback_defaults --&gt; uri2flow__resolver___defaults_from_entry\n    uri2flow__resolver___fallback_defaults --&gt; uri2flow__resolver___load_flow_defaults_config\n    uri2flow__resolver__default_operation_for_uri --&gt; uri2flow__resolver___defaults_from_patterns\n    uri2flow__resolver__default_operation_for_uri --&gt; uri2flow__resolver___defaults_from_scheme\n    uri2flow__resolver__default_operation_for_uri --&gt; uri2flow__resolver___fallback_defaults\n", "is_subdir": false}, {"name": "compact_flow.mmd", "rel_path": "compact_flow.mmd", "path": "compact_flow.mmd", "size": "769B", "icon": "📈", "type": "mermaid", "type_name": "Mermaid", "content": "flowchart TD\n%% generated in 0.01s\n    uri2flow__cli[&quot;uri2flow.cli&lt;br/&gt;5 funcs&quot;]\n    uri2flow__expander[&quot;uri2flow.expander&lt;br/&gt;4 funcs&quot;]\n    uri2flow__parser[&quot;uri2flow.parser&lt;br/&gt;4 funcs&quot;]\n    uri2flow__resolver[&quot;uri2flow.resolver&lt;br/&gt;10 funcs&quot;]\n    uri2flow__utils[&quot;uri2flow.utils&lt;br/&gt;4 funcs&quot;]\n    uri2flow__validator[&quot;uri2flow.validator&lt;br/&gt;3 funcs&quot;]\n    uri2flow__cli ==&gt;|4| uri2flow__expander\n    uri2flow__validator --&gt;|2| uri2flow__parser\n    uri2flow__expander --&gt;|2| uri2flow__parser\n    uri2flow__validator --&gt;|1| uri2flow__expander\n    uri2flow__cli --&gt;|1| uri2flow__validator\n    uri2flow__cli --&gt;|1| uri2flow__parser\n    uri2flow__expander --&gt;|1| uri2flow__resolver\n    uri2flow__expander --&gt;|1| uri2flow__utils\n    uri2flow__parser --&gt;|1| uri2flow__utils\n", "is_subdir": false}, {"name": "flow.mmd", "rel_path": "flow.mmd", "path": "flow.mmd", "size": "1.3KB", "icon": "📈", "type": "mermaid", "type_name": "Mermaid", "content": "flowchart TD\n%% generated in 0.01s\n\n    %% Entry points (blue)\n    classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff\n\n    subgraph CLI\n        uri2flow__cli__cmd_validate[&quot;cmd_validate&quot;]\n        uri2flow__cli__cmd_expand[&quot;cmd_expand&quot;]\n        uri2flow__cli__cmd_print[&quot;cmd_print&quot;]\n        uri2flow__cli__build_parser[&quot;build_parser&quot;]\n        uri2flow__cli__main[&quot;main&quot;]\n    end\n\n    subgraph Core\n        uri2flow__validator__validate_expanded_flow[&quot;validate_expanded_flow&quot;]\n        uri2flow__expander___node_from_step(&quot;_node_from_step CC=11&quot;)\n        uri2flow__expander__expand_flow[&quot;expand_flow&quot;]\n        uri2flow__models__FlowDocument__to_dict[&quot;to_dict&quot;]\n        uri2flow__resolver___pattern_to_regex[&quot;_pattern_to_regex&quot;]\n        uri2flow__resolver___match_pattern[&quot;_match_pattern&quot;]\n        uri2flow__resolver___defaults_from_patterns[&quot;_defaults_from_patterns&quot;]\n        uri2flow__resolver__default_operation_for_uri[&quot;default_operation_for_uri&quot;]\n        uri2flow__resolver__clear_defaults_cache[&quot;clear_defaults_cache&quot;]\n    end\n\n    class uri2flow__validator__validate_expanded_flow,uri2flow__cli__cmd_validate,uri2flow__cli__cmd_expand,uri2flow__cli__cmd_print,uri2flow__cli__build_parser,uri2flow__cli__main,uri2flow__models__FlowDocument__to_dict,uri2flow__resolver__clear_defaults_cache entry\n", "is_subdir": false}, {"name": "prompt.txt", "rel_path": "prompt.txt", "path": "prompt.txt", "size": "2.9KB", "icon": "📄", "type": "text", "type_name": "Text", "content": "You are an AI assistant helping me understand and improve a codebase.\n# generated in 0.00s\nUse the attached/generated files as the authoritative context.\nYour goal is to refactor the project based on these files, not just summarize it.\n\nwe are in project path: uri2flow\n\nFiles for analysis:\n\nNote: project/validation.toon.yaml and project/duplication.toon.yaml are generated by external tools (vallm and redup)\n- analysis.toon.yaml  (Health diagnostics - complexity metrics, god modules, coupling issues, refactoring priorities) [3KB]\n- map.toon.yaml  (Structural map - files, sizes, imports, exports, signatures, project header) [4KB]\n- evolution.toon.yaml  (Refactoring queue - ranked actions by impact/effort, risks, metrics targets, history) [1KB]\n- project.toon.yaml  (Compact project overview - generated from project.yaml data) [1KB]\n- context.md  (LLM narrative - architecture summary and project context) [6KB]\n\nMissing files (not generated in this run):\n- README.md\n\nTask:\n- Treat this prompt as a refactoring brief: identify the highest-priority changes and prepare concrete edits.\n- Use the file set to decide whether the first pass should focus on correctness, duplication, complexity reduction, or architecture cleanup.\n- If you can safely implement the refactor, do it; otherwise give an exact file-by-file change plan and test plan.\n- Use analysis.toon.yaml to locate high-CC functions and god modules that should be split first.\n- Keep module boundaries intact and update imports/exports according to map.toon.yaml.\n- Use evolution.toon.yaml as the execution backlog and work from the top-ranked items.\n- Keep project.toon.yaml aligned with the refactored architecture.\n\nPriority Order:\nP1 — Split or simplify the highest-CC / god modules identified in analysis.toon.yaml.\nP1 — Preserve module boundaries and update imports/exports according to map.toon.yaml.\nP2 — Keep the compact project overview in project.toon.yaml aligned with the refactor.\nP2 — Execute the highest-impact items from evolution.toon.yaml in order of benefit/risk.\n\nFocus Areas for Analysis:\n1. **Code Health Analysis** - Review complexity metrics, god modules, coupling issues from analysis.toon.yaml\n2. **Structural Map** - Use map.toon.yaml to inspect imports, exports, signatures, and the project header\n3. **Refactoring Priorities** - Examine ranked refactoring actions and risk assessment from evolution.toon.yaml\n4. **Project Overview** - Review the compact project overview from project.toon.yaml\n\nAnalysis Strategy:\n- Start with analysis.toon.yaml for health metrics, then map.toon.yaml for structure and signatures\n- Review evolution.toon.yaml for action priorities and next steps\n- Compare the compact project overview in project.toon.yaml with the main analysis files\n\nConstraints:\n- Prefer minimal, incremental changes.\n- Maintain full backward compatibility.\n- Base recommendations on concrete metrics from the provided files.\n- If uncertain, ask clarifying questions.\n", "is_subdir": false}, {"name": "mermaid.export", "rel_path": "mermaid.export", "path": "mermaid.export", "size": "5.4KB", "icon": "📄", "type": "unknown", "type_name": "EXPORT", "content": "[Binary file]", "is_subdir": false}, {"name": "analysis.toon.yaml", "rel_path": "analysis.toon.yaml", "path": "analysis.toon.yaml", "size": "3.2KB", "icon": "⚙️", "type": "yaml", "type_name": "YAML", "content": "# code2llm | 30f 1805L | yaml:15,python:10,shell:3,toml:1,json:1 | 2026-06-21\n# generated in 0.01s\n# CC̅=4.7 | critical:0/31 | dups:0 | cycles:0\n\nHEALTH[0]: ok\n\nREFACTOR[0]: none needed\n\nPIPELINES[7]:\n  [1] Src [validate_expanded_flow]: validate_expanded_flow → validate_flow_document → parse_flow → _parse_step → ...(1 more)\n      PURITY: 100% pure\n  [2] Src [cmd_validate]: cmd_validate → validate_flow → load_flow → parse_flow → ...(2 more)\n      PURITY: 100% pure\n  [3] Src [cmd_expand]: cmd_expand → expand_flow → load_flow → parse_flow → ...(2 more)\n      PURITY: 100% pure\n  [4] Src [cmd_print]: cmd_print → load_flow → parse_flow → _parse_step → ...(1 more)\n      PURITY: 100% pure\n  [5] Src [main]: main → build_parser\n      PURITY: 100% pure\n  [6] Src [to_dict]: to_dict\n      PURITY: 100% pure\n  [7] Src [clear_defaults_cache]: clear_defaults_cache\n      PURITY: 100% pure\n\nLAYERS:\n  uri2flow/                       CC̄=4.7    ←in:0  →out:0\n  │ resolver                   127L  1C   10m  CC=9      ←1\n  │ parser                      99L  1C    4m  CC=12     ←3\n  │ expander                    81L  0C    4m  CC=11     ←2\n  │ cli                         75L  0C    5m  CC=3      ←0\n  │ validator                   64L  0C    3m  CC=11     ←1\n  │ models                      47L  2C    1m  CC=11     ←0\n  │ uri_flow.schema.json        40L  0C    0m  CC=0.0    ←0\n  │ utils                       38L  0C    4m  CC=5      ←2\n  │ markpact_loader             23L  0C    0m  CC=0.0    ←0\n  │ __init__                    19L  0C    0m  CC=0.0    ←0\n  │ __init__                    16L  0C    0m  CC=0.0    ←0\n  │\n  ./                              CC̄=0.0    ←in:0  →out:0\n  │ !! goal.yaml                  525L  0C    0m  CC=0.0    ←0\n  │ pyproject.toml              68L  0C    0m  CC=0.0    ←0\n  │ project.sh                  59L  0C    0m  CC=0.0    ←0\n  │ tree.sh                      1L  0C    0m  CC=0.0    ←0\n  │\n  examples/                       CC̄=0.0    ←in:0  →out:0\n  │ run.sh                      41L  0C    0m  CC=0.0    ←0\n  │ bank_batch_transfer.yaml    28L  0C    0m  CC=0.0    ←0\n  │ portal_zus_form.yaml        28L  0C    0m  CC=0.0    ←0\n  │ supplier_report_monthly.yaml    28L  0C    0m  CC=0.0    ←0\n  │\n  contracts/                      CC̄=0.0    ←in:0  →out:0\n  │ hypervisor_dashboard_agent.yaml    55L  0C    0m  CC=0.0    ←0\n  │ remote_deploy_agent.yaml    53L  0C    0m  CC=0.0    ←0\n  │ screenshot_analysis_agent.yaml    42L  0C    0m  CC=0.0    ←0\n  │ user_agent.yaml             38L  0C    0m  CC=0.0    ←0\n  │ schema_collab_agent.yaml    36L  0C    0m  CC=0.0    ←0\n  │ gnome_programmer_agent.yaml    35L  0C    0m  CC=0.0    ←0\n  │ codex_uri_smoke_agent.yaml    30L  0C    0m  CC=0.0    ←0\n  │ codex_nl_plan_agent.yaml    30L  0C    0m  CC=0.0    ←0\n  │ codex_nl_smoke_agent.yaml    29L  0C    0m  CC=0.0    ←0\n  │ invoices_agent.yaml         28L  0C    0m  CC=0.0    ←0\n  │ weather_map_agent.yaml      22L  0C    0m  CC=0.0    ←0\n  │\n\nCOUPLING: no cross-package imports detected\n\nEXTERNAL:\n  validation: run `vallm batch .` → validation.toon\n  duplication: run `redup scan .` → duplication.toon\n", "is_subdir": false}, {"name": "calls.toon.yaml", "rel_path": "calls.toon.yaml", "path": "calls.toon.yaml", "size": "5.1KB", "icon": "⚙️", "type": "yaml", "type_name": "YAML", "content": "# code2llm call graph | /home/tom/github/tellmesh/uri2flow\n# generated in 0.02s\n# nodes: 29 | edges: 35 | modules: 6\n# CC̄=4.7\n\nHUBS[20]:\n  uri2flow.parser._parse_step\n    CC=10  in:1  out:29  total:30\n  uri2flow.resolver._find_repo_root\n    CC=9  in:1  out:19  total:20\n  uri2flow.parser.parse_flow\n    CC=12  in:3  out:16  total:19\n  uri2flow.cli.build_parser\n    CC=1  in:1  out:14  total:15\n  uri2flow.validator.validate_flow_document\n    CC=10  in:2  out:9  total:11\n  uri2flow.parser.load_flow\n    CC=4  in:3  out:8  total:11\n  uri2flow.expander.expand_flow\n    CC=6  in:2  out:8  total:10\n  uri2flow.resolver._load_flow_defaults_config\n    CC=4  in:3  out:7  total:10\n  uri2flow.resolver._defaults_from_entry\n    CC=3  in:3  out:7  total:10\n  uri2flow.resolver._pattern_to_regex\n    CC=4  in:1  out:8  total:9\n  uri2flow.cli.cmd_expand\n    CC=3  in:0  out:8  total:8\n  uri2flow.utils.node_id_from_uri\n    CC=5  in:1  out:7  total:8\n  uri2flow.resolver._defaults_from_patterns\n    CC=7  in:1  out:7  total:8\n  uri2flow.resolver._defaults_from_scheme\n    CC=3  in:1  out:5  total:6\n  uri2flow.parser._as_list\n    CC=5  in:1  out:5  total:6\n  uri2flow.resolver._fallback_defaults\n    CC=4  in:1  out:5  total:6\n  uri2flow.utils.slugify\n    CC=2  in:2  out:4  total:6\n  uri2flow.validator.validate_flow\n    CC=11  in:1  out:5  total:6\n  uri2flow.validator.validate_expanded_flow\n    CC=2  in:0  out:5  total:5\n  uri2flow.utils.path_parts\n    CC=4  in:1  out:4  total:5\n\nMODULES:\n  uri2flow.cli  [5 funcs]\n    build_parser  CC=1  out:14\n    cmd_expand  CC=3  out:8\n    cmd_print  CC=1  out:4\n    cmd_validate  CC=2  out:4\n    main  CC=1  out:3\n  uri2flow.expander  [4 funcs]\n    _edges_from_depends  CC=4  out:2\n    _node_from_step  CC=11  out:3\n    dump_yaml  CC=1  out:1\n    expand_flow  CC=6  out:8\n  uri2flow.parser  [4 funcs]\n    _as_list  CC=5  out:5\n    _parse_step  CC=10  out:29\n    load_flow  CC=4  out:8\n    parse_flow  CC=12  out:16\n  uri2flow.resolver  [9 funcs]\n    _defaults_from_entry  CC=3  out:7\n    _defaults_from_patterns  CC=7  out:7\n    _defaults_from_scheme  CC=3  out:5\n    _fallback_defaults  CC=4  out:5\n    _find_repo_root  CC=9  out:19\n    _load_flow_defaults_config  CC=4  out:7\n    _match_pattern  CC=2  out:3\n    _pattern_to_regex  CC=4  out:8\n    default_operation_for_uri  CC=3  out:4\n  uri2flow.utils  [4 funcs]\n    node_id_from_uri  CC=5  out:7\n    path_parts  CC=4  out:4\n    scheme_of  CC=1  out:1\n    slugify  CC=2  out:4\n  uri2flow.validator  [3 funcs]\n    validate_expanded_flow  CC=2  out:5\n    validate_flow  CC=11  out:5\n    validate_flow_document  CC=10  out:9\n\nEDGES:\n  uri2flow.validator.validate_flow_document → uri2flow.parser.parse_flow\n  uri2flow.validator.validate_expanded_flow → uri2flow.validator.validate_flow_document\n  uri2flow.validator.validate_expanded_flow → uri2flow.expander.expand_flow\n  uri2flow.validator.validate_flow → uri2flow.parser.load_flow\n  uri2flow.validator.validate_flow → uri2flow.validator.validate_flow_document\n  uri2flow.cli.cmd_validate → uri2flow.validator.validate_flow\n  uri2flow.cli.cmd_validate → uri2flow.expander.dump_yaml\n  uri2flow.cli.cmd_expand → uri2flow.expander.expand_flow\n  uri2flow.cli.cmd_expand → uri2flow.expander.dump_yaml\n  uri2flow.cli.cmd_print → uri2flow.parser.load_flow\n  uri2flow.cli.cmd_print → uri2flow.expander.dump_yaml\n  uri2flow.cli.main → uri2flow.cli.build_parser\n  uri2flow.expander._node_from_step → uri2flow.resolver.default_operation_for_uri\n  uri2flow.expander._node_from_step → uri2flow.utils.node_id_from_uri\n  uri2flow.expander.expand_flow → uri2flow.parser.load_flow\n  uri2flow.expander.expand_flow → uri2flow.expander._node_from_step\n  uri2flow.expander.expand_flow → uri2flow.expander._edges_from_depends\n  uri2flow.expander.expand_flow → uri2flow.parser.parse_flow\n  uri2flow.parser._parse_step → uri2flow.parser._as_list\n  uri2flow.parser.load_flow → uri2flow.parser.parse_flow\n  uri2flow.utils.node_id_from_uri → uri2flow.utils.path_parts\n  uri2flow.utils.node_id_from_uri → uri2flow.utils.scheme_of\n  uri2flow.utils.node_id_from_uri → uri2flow.utils.slugify\n  uri2flow.resolver._match_pattern → uri2flow.resolver._pattern_to_regex\n  uri2flow.resolver._load_flow_defaults_config → uri2flow.resolver._find_repo_root\n  uri2flow.resolver._defaults_from_scheme → uri2flow.resolver._defaults_from_entry\n  uri2flow.resolver._defaults_from_scheme → uri2flow.resolver._load_flow_defaults_config\n  uri2flow.resolver._defaults_from_patterns → uri2flow.resolver._match_pattern\n  uri2flow.resolver._defaults_from_patterns → uri2flow.resolver._defaults_from_entry\n  uri2flow.resolver._defaults_from_patterns → uri2flow.resolver._load_flow_defaults_config\n  uri2flow.resolver._fallback_defaults → uri2flow.resolver._defaults_from_entry\n  uri2flow.resolver._fallback_defaults → uri2flow.resolver._load_flow_defaults_config\n  uri2flow.resolver.default_operation_for_uri → uri2flow.resolver._defaults_from_patterns\n  uri2flow.resolver.default_operation_for_uri → uri2flow.resolver._defaults_from_scheme\n  uri2flow.resolver.default_operation_for_uri → uri2flow.resolver._fallback_defaults\n", "is_subdir": false}, {"name": "calls.yaml", "rel_path": "calls.yaml", "path": "calls.yaml", "size": "9.9KB", "icon": "⚙️", "type": "yaml", "type_name": "YAML", "content": "project: /home/tom/github/tellmesh/uri2flow\ngenerated_from: code2llm call graph analysis\nstats:\n  total_nodes: 29\n  total_edges: 35\n  modules_count: 6\nnodes:\n  uri2flow.validator.validate_expanded_flow:\n    name: validate_expanded_flow\n    module: uri2flow.validator\n    line: 34\n    cyclomatic_complexity: 2\n    calls_out: 5\n    calls_in: 0\n  uri2flow.validator.validate_flow_document:\n    name: validate_flow_document\n    module: uri2flow.validator\n    line: 12\n    cyclomatic_complexity: 10\n    calls_out: 9\n    calls_in: 2\n  uri2flow.resolver._defaults_from_scheme:\n    name: _defaults_from_scheme\n    module: uri2flow.resolver\n    line: 88\n    cyclomatic_complexity: 3\n    calls_out: 5\n    calls_in: 1\n  uri2flow.expander._node_from_step:\n    name: _node_from_step\n    module: uri2flow.expander\n    line: 14\n    cyclomatic_complexity: 11\n    calls_out: 3\n    calls_in: 1\n  uri2flow.cli.main:\n    name: main\n    module: uri2flow.cli\n    line: 68\n    cyclomatic_complexity: 1\n    calls_out: 3\n    calls_in: 0\n  uri2flow.cli.cmd_validate:\n    name: cmd_validate\n    module: uri2flow.cli\n    line: 13\n    cyclomatic_complexity: 2\n    calls_out: 4\n    calls_in: 0\n  uri2flow.expander._edges_from_depends:\n    name: _edges_from_depends\n    module: uri2flow.expander\n    line: 35\n    cyclomatic_complexity: 4\n    calls_out: 2\n    calls_in: 1\n  uri2flow.cli.cmd_print:\n    name: cmd_print\n    module: uri2flow.cli\n    line: 31\n    cyclomatic_complexity: 1\n    calls_out: 4\n    calls_in: 0\n  uri2flow.cli.cmd_expand:\n    name: cmd_expand\n    module: uri2flow.cli\n    line: 20\n    cyclomatic_complexity: 3\n    calls_out: 8\n    calls_in: 0\n  uri2flow.parser._as_list:\n    name: _as_list\n    module: uri2flow.parser\n    line: 17\n    cyclomatic_complexity: 5\n    calls_out: 5\n    calls_in: 1\n  uri2flow.utils.node_id_from_uri:\n    name: node_id_from_uri\n    module: uri2flow.utils\n    line: 26\n    cyclomatic_complexity: 5\n    calls_out: 7\n    calls_in: 1\n  uri2flow.expander.expand_flow:\n    name: expand_flow\n    module: uri2flow.expander\n    line: 43\n    cyclomatic_complexity: 6\n    calls_out: 8\n    calls_in: 2\n  uri2flow.utils.path_parts:\n    name: path_parts\n    module: uri2flow.utils\n    line: 17\n    cyclomatic_complexity: 4\n    calls_out: 4\n    calls_in: 1\n  uri2flow.parser.parse_flow:\n    name: parse_flow\n    module: uri2flow.parser\n    line: 61\n    cyclomatic_complexity: 12\n    calls_out: 16\n    calls_in: 3\n  uri2flow.resolver._load_flow_defaults_config:\n    name: _load_flow_defaults_config\n    module: uri2flow.resolver\n    line: 70\n    cyclomatic_complexity: 4\n    calls_out: 7\n    calls_in: 3\n  uri2flow.resolver._fallback_defaults:\n    name: _fallback_defaults\n    module: uri2flow.resolver\n    line: 105\n    cyclomatic_complexity: 4\n    calls_out: 5\n    calls_in: 1\n  uri2flow.parser.load_flow:\n    name: load_flow\n    module: uri2flow.parser\n    line: 91\n    cyclomatic_complexity: 4\n    calls_out: 8\n    calls_in: 3\n  uri2flow.cli.build_parser:\n    name: build_parser\n    module: uri2flow.cli\n    line: 37\n    cyclomatic_complexity: 1\n    calls_out: 14\n    calls_in: 1\n  uri2flow.resolver._defaults_from_patterns:\n    name: _defaults_from_patterns\n    module: uri2flow.resolver\n    line: 95\n    cyclomatic_complexity: 7\n    calls_out: 7\n    calls_in: 1\n  uri2flow.resolver._pattern_to_regex:\n    name: _pattern_to_regex\n    module: uri2flow.resolver\n    line: 53\n    cyclomatic_complexity: 4\n    calls_out: 8\n    calls_in: 1\n  uri2flow.utils.slugify:\n    name: slugify\n    module: uri2flow.utils\n    line: 7\n    cyclomatic_complexity: 2\n    calls_out: 4\n    calls_in: 2\n  uri2flow.resolver._defaults_from_entry:\n    name: _defaults_from_entry\n    module: uri2flow.resolver\n    line: 80\n    cyclomatic_complexity: 3\n    calls_out: 7\n    calls_in: 3\n  uri2flow.resolver._match_pattern:\n    name: _match_pattern\n    module: uri2flow.resolver\n    line: 63\n    cyclomatic_complexity: 2\n    calls_out: 3\n    calls_in: 1\n  uri2flow.validator.validate_flow:\n    name: validate_flow\n    module: uri2flow.validator\n    line: 43\n    cyclomatic_complexity: 11\n    calls_out: 5\n    calls_in: 1\n  uri2flow.expander.dump_yaml:\n    name: dump_yaml\n    module: uri2flow.expander\n    line: 80\n    cyclomatic_complexity: 1\n    calls_out: 1\n    calls_in: 3\n  uri2flow.utils.scheme_of:\n    name: scheme_of\n    module: uri2flow.utils\n    line: 13\n    cyclomatic_complexity: 1\n    calls_out: 1\n    calls_in: 1\n  uri2flow.resolver.default_operation_for_uri:\n    name: default_operation_for_uri\n    module: uri2flow.resolver\n    line: 112\n    cyclomatic_complexity: 3\n    calls_out: 4\n    calls_in: 1\n  uri2flow.resolver._find_repo_root:\n    name: _find_repo_root\n    module: uri2flow.resolver\n    line: 18\n    cyclomatic_complexity: 9\n    calls_out: 19\n    calls_in: 1\n  uri2flow.parser._parse_step:\n    name: _parse_step\n    module: uri2flow.parser\n    line: 27\n    cyclomatic_complexity: 10\n    calls_out: 29\n    calls_in: 1\nedges:\n- caller: uri2flow.validator.validate_flow_document\n  callee: uri2flow.parser.parse_flow\n  call_type: resolved\n- caller: uri2flow.validator.validate_expanded_flow\n  callee: uri2flow.validator.validate_flow_document\n  call_type: resolved\n- caller: uri2flow.validator.validate_expanded_flow\n  callee: uri2flow.expander.expand_flow\n  call_type: resolved\n- caller: uri2flow.validator.validate_flow\n  callee: uri2flow.parser.load_flow\n  call_type: resolved\n- caller: uri2flow.validator.validate_flow\n  callee: uri2flow.validator.validate_flow_document\n  call_type: resolved\n- caller: uri2flow.cli.cmd_validate\n  callee: uri2flow.validator.validate_flow\n  call_type: resolved\n- caller: uri2flow.cli.cmd_validate\n  callee: uri2flow.expander.dump_yaml\n  call_type: resolved\n- caller: uri2flow.cli.cmd_expand\n  callee: uri2flow.expander.expand_flow\n  call_type: resolved\n- caller: uri2flow.cli.cmd_expand\n  callee: uri2flow.expander.dump_yaml\n  call_type: resolved\n- caller: uri2flow.cli.cmd_print\n  callee: uri2flow.parser.load_flow\n  call_type: resolved\n- caller: uri2flow.cli.cmd_print\n  callee: uri2flow.expander.dump_yaml\n  call_type: resolved\n- caller: uri2flow.cli.main\n  callee: uri2flow.cli.build_parser\n  call_type: resolved\n- caller: uri2flow.expander._node_from_step\n  callee: uri2flow.resolver.default_operation_for_uri\n  call_type: resolved\n- caller: uri2flow.expander._node_from_step\n  callee: uri2flow.utils.node_id_from_uri\n  call_type: resolved\n- caller: uri2flow.expander.expand_flow\n  callee: uri2flow.parser.load_flow\n  call_type: resolved\n- caller: uri2flow.expander.expand_flow\n  callee: uri2flow.expander._node_from_step\n  call_type: resolved\n- caller: uri2flow.expander.expand_flow\n  callee: uri2flow.expander._edges_from_depends\n  call_type: resolved\n- caller: uri2flow.expander.expand_flow\n  callee: uri2flow.parser.parse_flow\n  call_type: resolved\n- caller: uri2flow.parser._parse_step\n  callee: uri2flow.parser._as_list\n  call_type: resolved\n- caller: uri2flow.parser.load_flow\n  callee: uri2flow.parser.parse_flow\n  call_type: resolved\n- caller: uri2flow.utils.node_id_from_uri\n  callee: uri2flow.utils.path_parts\n  call_type: resolved\n- caller: uri2flow.utils.node_id_from_uri\n  callee: uri2flow.utils.scheme_of\n  call_type: resolved\n- caller: uri2flow.utils.node_id_from_uri\n  callee: uri2flow.utils.slugify\n  call_type: resolved\n- caller: uri2flow.resolver._match_pattern\n  callee: uri2flow.resolver._pattern_to_regex\n  call_type: resolved\n- caller: uri2flow.resolver._load_flow_defaults_config\n  callee: uri2flow.resolver._find_repo_root\n  call_type: resolved\n- caller: uri2flow.resolver._defaults_from_scheme\n  callee: uri2flow.resolver._defaults_from_entry\n  call_type: resolved\n- caller: uri2flow.resolver._defaults_from_scheme\n  callee: uri2flow.resolver._load_flow_defaults_config\n  call_type: resolved\n- caller: uri2flow.resolver._defaults_from_patterns\n  callee: uri2flow.resolver._match_pattern\n  call_type: resolved\n- caller: uri2flow.resolver._defaults_from_patterns\n  callee: uri2flow.resolver._defaults_from_entry\n  call_type: resolved\n- caller: uri2flow.resolver._defaults_from_patterns\n  callee: uri2flow.resolver._load_flow_defaults_config\n  call_type: resolved\n- caller: uri2flow.resolver._fallback_defaults\n  callee: uri2flow.resolver._defaults_from_entry\n  call_type: resolved\n- caller: uri2flow.resolver._fallback_defaults\n  callee: uri2flow.resolver._load_flow_defaults_config\n  call_type: resolved\n- caller: uri2flow.resolver.default_operation_for_uri\n  callee: uri2flow.resolver._defaults_from_patterns\n  call_type: resolved\n- caller: uri2flow.resolver.default_operation_for_uri\n  callee: uri2flow.resolver._defaults_from_scheme\n  call_type: resolved\n- caller: uri2flow.resolver.default_operation_for_uri\n  callee: uri2flow.resolver._fallback_defaults\n  call_type: resolved\nmodules:\n  uri2flow.cli:\n  - uri2flow.cli.build_parser\n  - uri2flow.cli.cmd_expand\n  - uri2flow.cli.cmd_print\n  - uri2flow.cli.cmd_validate\n  - uri2flow.cli.main\n  uri2flow.expander:\n  - uri2flow.expander._edges_from_depends\n  - uri2flow.expander._node_from_step\n  - uri2flow.expander.dump_yaml\n  - uri2flow.expander.expand_flow\n  uri2flow.parser:\n  - uri2flow.parser._as_list\n  - uri2flow.parser._parse_step\n  - uri2flow.parser.load_flow\n  - uri2flow.parser.parse_flow\n  uri2flow.resolver:\n  - uri2flow.resolver._defaults_from_entry\n  - uri2flow.resolver._defaults_from_patterns\n  - uri2flow.resolver._defaults_from_scheme\n  - uri2flow.resolver._fallback_defaults\n  - uri2flow.resolver._find_repo_root\n  - uri2flow.resolver._load_flow_defaults_config\n  - uri2flow.resolver._match_pattern\n  - uri2flow.resolver._pattern_to_regex\n  - uri2flow.resolver.default_operation_for_uri\n  uri2flow.utils:\n  - uri2flow.utils.node_id_from_uri\n  - uri2flow.utils.path_parts\n  - uri2flow.utils.scheme_of\n  - uri2flow.utils.slugify\n  uri2flow.validator:\n  - uri2flow.validator.validate_expanded_flow\n  - uri2flow.validator.validate_flow\n  - uri2flow.validator.validate_flow_document\nentry_points:\n- uri2flow.cli.cmd_expand\n- uri2flow.cli.cmd_print\n- uri2flow.cli.cmd_validate\n- uri2flow.cli.main\n- uri2flow.models.FlowDocument.to_dict\n- uri2flow.resolver.clear_defaults_cache\n- uri2flow.validator.validate_expanded_flow\n", "is_subdir": false}, {"name": "evolution.toon.yaml", "rel_path": "evolution.toon.yaml", "path": "evolution.toon.yaml", "size": "1.5KB", "icon": "⚙️", "type": "yaml", "type_name": "YAML", "content": "# code2llm/evolution | 31 func | 7f | 2026-06-21\n# generated in 0.00s\n\nNEXT[1] (ranked by impact):\n  [1] !! SPLIT           goal.yaml\n      WHY: 525L, 0 classes, max CC=0\n      EFFORT: ~4h  IMPACT: 0\n\n\nRISKS[1]:\n  ⚠ Splitting goal.yaml may break 0 import paths\n\nMETRICS-TARGET:\n  CC̄:          4.7 → ≤3.3\n  max-CC:      12 → ≤6\n  god-modules: 1 → 0\n  high-CC(≥15): 0 → ≤0\n  hub-types:   0 → ≤0\n\nPATTERNS (language parser shared logic):\n  _extract_declarations() in base.py — unified extraction for:\n    - TypeScript: interfaces, types, classes, functions, arrow funcs\n    - PHP: namespaces, traits, classes, functions, includes\n    - Ruby: modules, classes, methods, requires\n    - C++: classes, structs, functions, #includes\n    - C#: classes, interfaces, methods, usings\n    - Java: classes, interfaces, methods, imports\n    - Go: packages, functions, structs\n    - Rust: modules, functions, traits, use statements\n\n  Shared regex patterns per language:\n    - import: language-specific import/require/using patterns\n    - class: class/struct/trait declarations with inheritance\n    - function: function/method signatures with visibility\n    - brace_tracking: for C-family languages ({ })\n    - end_keyword_tracking: for Ruby (module/class/def...end)\n\n  Benefits:\n    - Consistent extraction logic across all languages\n    - Reduced code duplication (~70% reduction in parser LOC)\n    - Easier maintenance: fix once, apply everywhere\n    - Standardized FunctionInfo/ClassInfo models\n\nHISTORY:\n  (first run — no previous data)\n", "is_subdir": false}, {"name": "map.toon.yaml", "rel_path": "map.toon.yaml", "path": "map.toon.yaml", "size": "4.0KB", "icon": "⚙️", "type": "yaml", "type_name": "YAML", "content": "# uri2flow | 30f 1805L | yaml:15,toml:1,shell:3,python:10,json:1 | 2026-06-21\n# generated in 0.00s\n# stats: 31 func | 0 cls | 30 mod | CC̄=4.7 | critical:0 | cycles:0\n# alerts[2]: fan-out _parse_step=11; fan-out _find_repo_root=10\n# hotspots[5]: _parse_step fan=11; _find_repo_root fan=10; parse_flow fan=9; load_flow fan=8; validate_flow_document fan=7\n# evolution: baseline\n# Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods\nM[30]:\n  contracts/agents/codex_nl_plan_agent.yaml,30\n  contracts/agents/codex_nl_smoke_agent.yaml,29\n  contracts/agents/codex_uri_smoke_agent.yaml,30\n  contracts/agents/gnome_programmer_agent.yaml,35\n  contracts/agents/hypervisor_dashboard_agent.yaml,55\n  contracts/agents/invoices_agent.yaml,28\n  contracts/agents/remote_deploy_agent.yaml,53\n  contracts/agents/schema_collab_agent.yaml,36\n  contracts/agents/screenshot_analysis_agent.yaml,42\n  contracts/agents/user_agent.yaml,38\n  contracts/agents/weather_map_agent.yaml,22\n  examples/33_office_workflows/bank_batch_transfer.yaml,28\n  examples/33_office_workflows/portal_zus_form.yaml,28\n  examples/33_office_workflows/run.sh,41\n  examples/33_office_workflows/supplier_report_monthly.yaml,28\n  goal.yaml,525\n  project.sh,59\n  pyproject.toml,68\n  tree.sh,1\n  uri2flow/__init__.py,16\n  uri2flow/cli.py,75\n  uri2flow/expander.py,81\n  uri2flow/loaders/__init__.py,19\n  uri2flow/loaders/markpact_loader.py,23\n  uri2flow/models.py,47\n  uri2flow/parser.py,99\n  uri2flow/resolver.py,127\n  uri2flow/schemas/uri_flow.schema.json,40\n  uri2flow/utils.py,38\n  uri2flow/validator.py,64\nD:\n  uri2flow/parser.py:\n    e: FlowParseError,_as_list,_parse_step,parse_flow,load_flow\n    FlowParseError(ValueError):\n    _as_list(value)\n    _parse_step(raw)\n    parse_flow(data)\n    load_flow(path)\n  uri2flow/validator.py:\n    e: validate_flow_document,validate_expanded_flow,validate_flow\n    validate_flow_document(data)\n    validate_expanded_flow(data)\n    validate_flow(path)\n  uri2flow/expander.py:\n    e: _node_from_step,_edges_from_depends,expand_flow,dump_yaml\n    _node_from_step(step;previous_id;used)\n    _edges_from_depends(nodes)\n    expand_flow(flow)\n    dump_yaml(data)\n  uri2flow/models.py:\n    e: FlowStep,FlowDocument\n    FlowStep:\n    FlowDocument: to_dict(0)\n  uri2flow/resolver.py:\n    e: OperationDefaults,_find_repo_root,_pattern_to_regex,_match_pattern,_load_flow_defaults_config,_defaults_from_entry,_defaults_from_scheme,_defaults_from_patterns,_fallback_defaults,default_operation_for_uri,clear_defaults_cache\n    OperationDefaults:\n    _find_repo_root(start)\n    _pattern_to_regex(pattern)\n    _match_pattern(pattern;uri)\n    _load_flow_defaults_config()\n    _defaults_from_entry(entry)\n    _defaults_from_scheme(scheme)\n    _defaults_from_patterns(uri)\n    _fallback_defaults()\n    default_operation_for_uri(uri)\n    clear_defaults_cache()\n  uri2flow/utils.py:\n    e: slugify,scheme_of,path_parts,node_id_from_uri\n    slugify(value)\n    scheme_of(uri)\n    path_parts(uri)\n    node_id_from_uri(uri;used)\n  uri2flow/cli.py:\n    e: cmd_validate,cmd_expand,cmd_print,build_parser,main\n    cmd_validate(args)\n    cmd_expand(args)\n    cmd_print(args)\n    build_parser()\n    main(argv)\n  goal.yaml:\n  pyproject.toml:\n  tree.sh:\n  project.sh:\n  examples/33_office_workflows/run.sh:\n  examples/33_office_workflows/bank_batch_transfer.yaml:\n  examples/33_office_workflows/portal_zus_form.yaml:\n  examples/33_office_workflows/supplier_report_monthly.yaml:\n  uri2flow/__init__.py:\n  uri2flow/schemas/uri_flow.schema.json:\n  uri2flow/loaders/__init__.py:\n  uri2flow/loaders/markpact_loader.py:\n  contracts/agents/weather_map_agent.yaml:\n  contracts/agents/codex_uri_smoke_agent.yaml:\n  contracts/agents/codex_nl_smoke_agent.yaml:\n  contracts/agents/codex_nl_plan_agent.yaml:\n  contracts/agents/screenshot_analysis_agent.yaml:\n  contracts/agents/remote_deploy_agent.yaml:\n  contracts/agents/invoices_agent.yaml:\n  contracts/agents/hypervisor_dashboard_agent.yaml:\n  contracts/agents/user_agent.yaml:\n  contracts/agents/gnome_programmer_agent.yaml:\n  contracts/agents/schema_collab_agent.yaml:\n", "is_subdir": false}, {"name": "planfile-tickets.yaml", "rel_path": "planfile-tickets.yaml", "path": "planfile-tickets.yaml", "size": "4.0KB", "icon": "⚙️", "type": "yaml", "type_name": "YAML", "content": "source: code2llm\n# generated in 0.01s\nschema: code2llm.planfile_tickets.v1\nproject_root: /home/tom/github/tellmesh/uri2flow\ntickets:\n- signal: code2llm_smell_god_function\n  title: 'Address code smell: God Function: _node_from_step'\n  description: 'code2llm reports `God Function: _node_from_step` in `uri2flow/expander.py:14`.\n\n\n    Function ''_node_from_step'' is oversized: CC=11, fan-out=3, mutations=7.\n\n\n    Make the smallest refactor that removes the smell and run local tests.'\n  priority: normal\n  labels:\n  - llm-ready\n  - code2llm\n  - code-smell\n  - god-function\n  files:\n  - uri2flow/expander.py\n  dedupe_key: 'code2llm:smell:god_function:uri2flow/expander.py:14:God Function: _node_from_step'\n- signal: code2llm_smell_god_function\n  title: 'Address code smell: God Function: _parse_step'\n  description: 'code2llm reports `God Function: _parse_step` in `uri2flow/parser.py:27`.\n\n\n    Function ''_parse_step'' is oversized: CC=10, fan-out=11, mutations=7.\n\n\n    Make the smallest refactor that removes the smell and run local tests.'\n  priority: normal\n  labels:\n  - llm-ready\n  - code2llm\n  - code-smell\n  - god-function\n  files:\n  - uri2flow/parser.py\n  dedupe_key: 'code2llm:smell:god_function:uri2flow/parser.py:27:God Function: _parse_step'\n- signal: code2llm_smell_god_function\n  title: 'Address code smell: God Function: build_parser'\n  description: 'code2llm reports `God Function: build_parser` in `uri2flow/cli.py:37`.\n\n\n    Function ''build_parser'' is oversized: CC=1, fan-out=5, mutations=18.\n\n\n    Make the smallest refactor that removes the smell and run local tests.'\n  priority: normal\n  labels:\n  - llm-ready\n  - code2llm\n  - code-smell\n  - god-function\n  files:\n  - uri2flow/cli.py\n  dedupe_key: 'code2llm:smell:god_function:uri2flow/cli.py:37:God Function: build_parser'\n- signal: code2llm_smell_god_function\n  title: 'Address code smell: God Function: expand_flow'\n  description: 'code2llm reports `God Function: expand_flow` in `uri2flow/expander.py:43`.\n\n\n    Function ''expand_flow'' is oversized: CC=6, fan-out=7, mutations=7.\n\n\n    Make the smallest refactor that removes the smell and run local tests.'\n  priority: normal\n  labels:\n  - llm-ready\n  - code2llm\n  - code-smell\n  - god-function\n  files:\n  - uri2flow/expander.py\n  dedupe_key: 'code2llm:smell:god_function:uri2flow/expander.py:43:God Function: expand_flow'\n- signal: code2llm_smell_god_function\n  title: 'Address code smell: God Function: node_id_from_uri'\n  description: 'code2llm reports `God Function: node_id_from_uri` in `uri2flow/utils.py:26`.\n\n\n    Function ''node_id_from_uri'' is oversized: CC=5, fan-out=7, mutations=10.\n\n\n    Make the smallest refactor that removes the smell and run local tests.'\n  priority: normal\n  labels:\n  - llm-ready\n  - code2llm\n  - code-smell\n  - god-function\n  files:\n  - uri2flow/utils.py\n  dedupe_key: 'code2llm:smell:god_function:uri2flow/utils.py:26:God Function: node_id_from_uri'\n- signal: code2llm_smell_god_function\n  title: 'Address code smell: God Function: parse_flow'\n  description: 'code2llm reports `God Function: parse_flow` in `uri2flow/parser.py:61`.\n\n\n    Function ''parse_flow'' is oversized: CC=12, fan-out=9, mutations=9.\n\n\n    Make the smallest refactor that removes the smell and run local tests.'\n  priority: normal\n  labels:\n  - llm-ready\n  - code2llm\n  - code-smell\n  - god-function\n  files:\n  - uri2flow/parser.py\n  dedupe_key: 'code2llm:smell:god_function:uri2flow/parser.py:61:God Function: parse_flow'\n- signal: code2llm_smell_god_function\n  title: 'Address code smell: God Function: validate_flow'\n  description: 'code2llm reports `God Function: validate_flow` in `uri2flow/validator.py:43`.\n\n\n    Function ''validate_flow'' is oversized: CC=11, fan-out=4, mutations=8.\n\n\n    Make the smallest refactor that removes the smell and run local tests.'\n  priority: normal\n  labels:\n  - llm-ready\n  - code2llm\n  - code-smell\n  - god-function\n  files:\n  - uri2flow/validator.py\n  dedupe_key: 'code2llm:smell:god_function:uri2flow/validator.py:43:God Function:\n    validate_flow'\napplied: []\nskipped: []\n", "is_subdir": false}, {"name": "project.toon.yaml", "rel_path": "project.toon.yaml", "path": "project.toon.yaml", "size": "1.5KB", "icon": "⚙️", "type": "yaml", "type_name": "YAML", "content": "# uri2flow | 31 func | 7f | 1805L | yaml | 2026-06-21\n# generated in 0.00s\n\nHEALTH:\n  CC̄=4.7  critical=6 (limit:10)  dup=0  cycles=0\n\nALERTS[2]:\n  !   high_fan_out     _parse_step = 11 (limit:10)\n  !   high_fan_out     _find_repo_root = 10 (limit:10)\n\nMODULES[30] (top by size):\n  M[goal.yaml] 525L C:0 F:0 CC↑0 D:0 (yaml)\n  M[uri2flow/resolver.py] 127L C:1 F:10 CC↑9 D:1 (python)\n  M[uri2flow/parser.py] 99L C:1 F:4 CC↑12 D:3 (python)\n  M[uri2flow/expander.py] 81L C:0 F:4 CC↑11 D:2 (python)\n  M[uri2flow/cli.py] 75L C:0 F:5 CC↑3 D:0 (python)\n  M[pyproject.toml] 68L C:0 F:0 CC↑0 D:0 (toml)\n  M[uri2flow/validator.py] 64L C:0 F:3 CC↑11 D:1 (python)\n  M[project.sh] 59L C:0 F:0 CC↑0 D:0 (shell)\n  M[contracts/agents/hypervisor_dashboard_agent.yaml] 55L C:0 F:0 CC↑0 D:0 (yaml)\n  M[contracts/agents/remote_deploy_agent.yaml] 53L C:0 F:0 CC↑0 D:0 (yaml)\n  M[uri2flow/models.py] 47L C:2 F:1 CC↑11 D:0 (python)\n  M[contracts/agents/screenshot_analysis_agent.yaml] 42L C:0 F:0 CC↑0 D:0 (yaml)\n  M[examples/33_office_workflows/run.sh] 41L C:0 F:0 CC↑0 D:0 (shell)\n  M[uri2flow/schemas/uri_flow.schema.json] 40L C:0 F:0 CC↑0 D:0 (json)\n  M[uri2flow/utils.py] 38L C:0 F:4 CC↑5 D:2 (python)\n  LANGS: yaml:15/python:10/shell:3/toml:1/json:1\n\nHOTSPOTS[2]:\n  ★ _parse_step fan=11  // Orchestrates 11 calls\n  ★ _find_repo_root fan=10  // Orchestrates 10 calls\n\nREFACTOR[1]:\n  [1] H/H Split god module goal.yaml (525L, 0 classes)\n\nEVOLUTION:\n  2026-06-21 CC̄=4.7 crit=6 1805L // Automated analysis\n", "is_subdir": false}];
+        let currentFile = null;
+
+        function renderFileList(filter = '') {
+            const list = document.getElementById('fileList');
+            const filtered = files.filter(f =>
+                f.name.toLowerCase().includes(filter.toLowerCase()) ||
+                f.path.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="empty-state">No files found</div>';
+                return;
+            }
+
+            // Group by type
+            const groups = {};
+            for (const file of filtered) {
+                const type = file.type_name;
+                if (!groups[type]) groups[type] = [];
+                groups[type].push(file);
+            }
+
+            let html = '';
+            for (const [typeName, groupFiles] of Object.entries(groups)) {
+                html += `
+                    <div class="file-group">
+                        <div class="file-group-title">${typeName} Files (${groupFiles.length})</div>
+                        ${groupFiles.map(f => `
+                            <div class="file-item ${currentFile?.name === f.name ? 'active' : ''}"
+                                 onclick="selectFile('${f.name}')">
+                                <span class="file-icon">${f.icon}</span>
+                                <div class="file-info">
+                                    <div class="file-name">${f.name}</div>
+                                    <div class="file-meta">${f.path}</div>
+                                </div>
+                                <span class="file-size">${f.size}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            list.innerHTML = html;
+        }
+
+        function selectFile(name) {
+            const file = files.find(f => f.name === name);
+            if (!file) return;
+
+            currentFile = file;
+
+            document.getElementById('contentIcon').textContent = file.icon;
+            document.getElementById('contentTitle').textContent = file.name;
+
+            // Actions
+            const actions = document.getElementById('contentActions');
+            actions.innerHTML = `
+                <a href="${file.rel_path}" download class="btn">⬇ Download</a>
+                <a href="${file.rel_path}" target="_blank" class="btn btn-primary">↗ Open Raw</a>
+            `;
+
+            // Content
+            const body = document.getElementById('contentBody');
+            if (file.type === 'markdown') {
+                // Render markdown as HTML using marked.js
+                body.innerHTML = `<div class="markdown-content">${marked.parse(file.content)}</div>`;
+            } else if (file.type === 'html') {
+                // For HTML files, show in iframe for safety
+                body.innerHTML = `<iframe src="${file.rel_path}" style="width:100%;height:100%;border:none;border-radius:0.5rem;"></iframe>`;  # noqa: E501
+            } else if (file.type === 'image') {
+                // For images, display the actual image
+                body.innerHTML = `<div class="image-preview"><img src="${file.rel_path}" alt="${file.name}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:0.5rem;"></div>`;  # noqa: E501
+            } else if (file.type === 'mermaid') {
+                // Render mermaid diagram
+                const diagramId = 'mermaid-diagram-' + Date.now();
+                body.innerHTML = `<div class="mermaid-content"><pre class="mermaid" id="${diagramId}">${file.content}</pre></div>`;  # noqa: E501
+                // Initialize mermaid on the new element
+                setTimeout(() => {
+                    mermaid.init(undefined, document.getElementById(diagramId));
+                }, 0);
+            } else if (file.type === 'json') {
+                try {
+                    const json = JSON.parse(file.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&'));  # noqa: E501
+                    const formatted = JSON.stringify(json, null, 2);
+                    body.innerHTML = `<pre><code class="language-json">${formatted.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;  # noqa: E501
+                    hljs.highlightElement(body.querySelector('code'));
+                } catch {
+                    body.innerHTML = `<pre>${file.content}</pre>`;
+                }
+            } else if (file.type === 'yaml') {
+                // YAML with syntax highlighting
+                body.innerHTML = `<pre><code class="language-yaml">${file.content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;  # noqa: E501
+                hljs.highlightElement(body.querySelector('code'));
+            } else if (file.type === 'toon') {
+                // TOON with simple highlighting (use ini as closest match for key: value format)
+                body.innerHTML = `<pre><code class="language-ini">${file.content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;  # noqa: E501
+                hljs.highlightElement(body.querySelector('code'));
+            } else if (file.type === 'code') {
+                // Code files with auto-highlighting
+                body.innerHTML = `<pre><code>${file.content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;  # noqa: E501
+                hljs.highlightElement(body.querySelector('code'));
+            } else {
+                body.innerHTML = `<pre>${file.content}</pre>`;
+            }
+
+            renderFileList(document.getElementById('search').value);
+        }
+
+        function filterFiles(query) {
+            renderFileList(query);
+        }
+
+        function renderStats() {
+            const stats = {};
+            for (const f of files) {
+                stats[f.type_name] = (stats[f.type_name] || 0) + 1;
+            }
+
+            const grid = document.getElementById('statsGrid');
+            grid.innerHTML = Object.entries(stats)
+                .sort((a, b) => b[1] - a[1])
+                .map(([type, count]) => `
+                    <div class="stat-card">
+                        <div class="stat-value">${count}</div>
+                        <div class="stat-label">${type}</div>
+                    </div>
+                `).join('');
+        }
+
+        // Initialize
+        renderStats();
+        renderFileList();
+
+        // Select first file if available
+        if (files.length > 0) {
+            selectFile(files[0].name);
+        }
+    </script>
+</body>
+</html>

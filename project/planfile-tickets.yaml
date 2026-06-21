@@ -1,0 +1,134 @@
+source: code2llm
+# generated in 0.01s
+schema: code2llm.planfile_tickets.v1
+project_root: /home/tom/github/tellmesh/uri2flow
+tickets:
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: _node_from_step'
+  description: 'code2llm reports `God Function: _node_from_step` in `uri2flow/expander.py:14`.
+
+
+    Function ''_node_from_step'' is oversized: CC=11, fan-out=3, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - uri2flow/expander.py
+  dedupe_key: 'code2llm:smell:god_function:uri2flow/expander.py:14:God Function: _node_from_step'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: _parse_step'
+  description: 'code2llm reports `God Function: _parse_step` in `uri2flow/parser.py:27`.
+
+
+    Function ''_parse_step'' is oversized: CC=10, fan-out=11, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - uri2flow/parser.py
+  dedupe_key: 'code2llm:smell:god_function:uri2flow/parser.py:27:God Function: _parse_step'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: build_parser'
+  description: 'code2llm reports `God Function: build_parser` in `uri2flow/cli.py:37`.
+
+
+    Function ''build_parser'' is oversized: CC=1, fan-out=5, mutations=18.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - uri2flow/cli.py
+  dedupe_key: 'code2llm:smell:god_function:uri2flow/cli.py:37:God Function: build_parser'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: expand_flow'
+  description: 'code2llm reports `God Function: expand_flow` in `uri2flow/expander.py:43`.
+
+
+    Function ''expand_flow'' is oversized: CC=6, fan-out=7, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - uri2flow/expander.py
+  dedupe_key: 'code2llm:smell:god_function:uri2flow/expander.py:43:God Function: expand_flow'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: node_id_from_uri'
+  description: 'code2llm reports `God Function: node_id_from_uri` in `uri2flow/utils.py:26`.
+
+
+    Function ''node_id_from_uri'' is oversized: CC=5, fan-out=7, mutations=10.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - uri2flow/utils.py
+  dedupe_key: 'code2llm:smell:god_function:uri2flow/utils.py:26:God Function: node_id_from_uri'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: parse_flow'
+  description: 'code2llm reports `God Function: parse_flow` in `uri2flow/parser.py:61`.
+
+
+    Function ''parse_flow'' is oversized: CC=12, fan-out=9, mutations=9.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - uri2flow/parser.py
+  dedupe_key: 'code2llm:smell:god_function:uri2flow/parser.py:61:God Function: parse_flow'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: validate_flow'
+  description: 'code2llm reports `God Function: validate_flow` in `uri2flow/validator.py:43`.
+
+
+    Function ''validate_flow'' is oversized: CC=11, fan-out=4, mutations=8.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - uri2flow/validator.py
+  dedupe_key: 'code2llm:smell:god_function:uri2flow/validator.py:43:God Function:
+    validate_flow'
+applied: []
+skipped: []
