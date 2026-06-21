@@ -30,6 +30,14 @@
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-06-21
+
+### Docs
+- Update README.md
+
+### Other
+- Update uv.lock
+
 ## [0.1.3] - 2026-06-21
 
 ### Docs
